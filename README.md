@@ -48,10 +48,10 @@ Built with **Next.js 14 (App Router)**, **React**, **Tailwind CSS**, and **Lucid
 
 ---
 
-## 🔑 Default Admin Credentials
+## 🔑 Admin Credentials
 
 - **Admin Portal URL**: `/admin` (or `/admin/login`)
-- **Default Passcode**: `mayur2026`
+- **Passcode**: `Manoj@1010`
 - *(To customize, set `ADMIN_PASSWORD` in your `.env.local` or Vercel Environment Variables).*
 
 ---

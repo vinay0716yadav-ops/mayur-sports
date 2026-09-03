@@ -93,7 +93,7 @@ export default function AdminLoginPage() {
                 />
               </div>
               <p className="text-[11px] text-slate-500 mt-2">
-                Default passcode is: <span className="text-emerald-400 font-mono font-bold">mayur2026</span> (can be modified via ADMIN_PASSWORD in environment variables).
+                Authorized access only. Enter shop admin passcode to manage inventory and prices.
               </p>
             </div>
 

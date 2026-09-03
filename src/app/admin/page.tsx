@@ -29,9 +29,11 @@ const CATEGORIES: Category[] = [
   'Badminton',
   'Football',
   'Fitness & Gym',
+  'Swimming',
+  'Skating',
+  'Tennis & TT',
   'Shoes & Wear',
   'Accessories',
-  'Tennis & TT',
 ];
 
 export default function AdminDashboardPage() {

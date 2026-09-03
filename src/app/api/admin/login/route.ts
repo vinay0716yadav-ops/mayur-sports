@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { password } = body;
 
-    const expectedPassword = process.env.ADMIN_PASSWORD || 'mayur2026';
+    const expectedPassword = process.env.ADMIN_PASSWORD || 'Manoj@1010';
 
     if (password === expectedPassword) {
       // In a lightweight setup, return a signed-like verification token
