@@ -3,8 +3,8 @@ import { Product, StoreInfo } from './types';
 export const initialStoreInfo: StoreInfo = {
   name: "Mayur Sports",
   tagline: "Your Premier Destination for Authentic Sporting Goods & Equipment",
-  phone: "+91 98220 12345",
-  whatsapp: "919822012345",
+  phone: "+91 98195 88573",
+  whatsapp: "919819588573",
   address: "Shop No 4, Navketan Building, M D, S Marg, below Hotel Vaishali, opp. CANARA BANK - MUMBAI CHEMBUR MAIN, Chembur",
   city: "Mumbai",
   state: "Maharashtra",
