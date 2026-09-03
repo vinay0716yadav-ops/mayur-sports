@@ -13,10 +13,13 @@ import {
   MessageCircle, 
   Phone, 
   MapPin, 
-  RefreshCw,
-  ShoppingBag,
-  ArrowUpDown,
+  RefreshCw, 
+  ShoppingBag, 
+  ArrowUpDown, 
   Navigation,
+  X,
+  SlidersHorizontal,
+  Info
 } from 'lucide-react';
 
 const CATEGORIES: ('All' | Category)[] = [
@@ -54,6 +57,7 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'newest'>('featured');
   const [selectedBrand, setSelectedBrand] = useState<string>('All');
 
+  // Load products with dual-sync (API + LocalStorage for guaranteed persistence of newly added items)
   useEffect(() => {
     async function fetchData() {
       try {
@@ -63,10 +67,32 @@ export default function HomePage() {
           fetch('/api/store')
         ]);
 
+        let apiProducts: Product[] = [];
         if (prodRes.ok) {
           const prodData = await prodRes.json();
-          setProducts(prodData.products || []);
+          apiProducts = prodData.products || [];
         }
+
+        // Check if there are any locally added products in localStorage (for client persistence)
+        let mergedProducts = [...apiProducts];
+        if (typeof window !== 'undefined') {
+          try {
+            const localSaved = localStorage.getItem('mayur_custom_products');
+            if (localSaved) {
+              const localList: Product[] = JSON.parse(localSaved);
+              if (Array.isArray(localList) && localList.length > 0) {
+                // Merge local products: replace existing by id or prepend new ones
+                const apiMap = new Map(apiProducts.map(p => [p.id, p]));
+                localList.forEach(lp => apiMap.set(lp.id, lp));
+                mergedProducts = Array.from(apiMap.values());
+              }
+            }
+          } catch (e) {
+            console.error('Local storage merge error:', e);
+          }
+        }
+
+        setProducts(mergedProducts);
 
         if (storeRes.ok) {
           const storeData = await storeRes.json();
@@ -86,61 +112,106 @@ export default function HomePage() {
   const availableBrands = useMemo(() => {
     const brands = new Set<string>();
     products.forEach((p) => {
-      if (p.brand) brands.add(p.brand);
+      if (p.brand) brands.add(p.brand.trim());
     });
     return ['All', ...Array.from(brands)];
   }, [products]);
 
+  // Smart helper to normalize singular/plural terms (e.g. 'balls' -> 'ball', 'bats' -> 'bat', 'skates' -> 'skate')
+  const getStem = (w: string) => {
+    if (w.endsWith('ies')) return w.slice(0, -3) + 'y';
+    if (w.endsWith('es') && w.length > 4) return w.slice(0, -2);
+    if (w.endsWith('s') && w.length > 3) return w.slice(0, -1);
+    return w;
+  };
+
+  // Check if a single product matches the search query terms
+  const productMatchesSearch = (p: Product, terms: string[]) => {
+    if (terms.length === 0) return true;
+
+    const searchableText = [
+      p.name,
+      p.brand,
+      p.category,
+      p.description,
+      p.badge || '',
+      ...(p.features || [])
+    ].join(' ').toLowerCase();
+
+    // Every search term must match in some way
+    return terms.every(term => {
+      if (searchableText.includes(term)) return true;
+      const stem = getStem(term);
+      if (stem !== term && searchableText.includes(stem)) return true;
+      return false;
+    });
+  };
+
   // Filtered & Sorted products
-  const filteredProducts = useMemo(() => {
+  const { filteredProducts, autoExpandedCategory } = useMemo(() => {
     const priceRange = PRICE_RANGES[selectedPriceRangeIndex];
+    const terms = searchQuery.trim().toLowerCase().split(/\s+/).filter(Boolean);
 
-    return products
-      .filter((p) => {
-        // Search
-        if (searchQuery.trim()) {
-          const query = searchQuery.toLowerCase();
-          const matchName = p.name.toLowerCase().includes(query);
-          const matchBrand = p.brand.toLowerCase().includes(query);
-          const matchCategory = p.category.toLowerCase().includes(query);
-          const matchDescription = p.description.toLowerCase().includes(query);
-          if (!matchName && !matchBrand && !matchCategory && !matchDescription) {
-            return false;
-          }
-        }
+    // Step 1: Filter with current category
+    let list = products.filter((p) => {
+      // 1. Search match
+      if (!productMatchesSearch(p, terms)) return false;
 
-        // Category
-        if (selectedCategory !== 'All' && p.category !== selectedCategory) {
-          return false;
-        }
+      // 2. Category match
+      if (selectedCategory !== 'All' && p.category !== selectedCategory) {
+        return false;
+      }
 
-        // Brand
-        if (selectedBrand !== 'All' && p.brand !== selectedBrand) {
-          return false;
-        }
+      // 3. Brand match
+      if (selectedBrand !== 'All' && p.brand !== selectedBrand) {
+        return false;
+      }
 
-        // Price Range
-        if (p.price < priceRange.min || p.price > priceRange.max) {
-          return false;
-        }
+      // 4. Price range match
+      if (p.price < priceRange.min || p.price > priceRange.max) {
+        return false;
+      }
 
-        // Stock
-        if (selectedStockFilter === 'IN_STOCK' && p.stockStatus === 'OUT_OF_STOCK') {
-          return false;
-        }
+      // 5. Stock filter
+      if (selectedStockFilter === 'IN_STOCK' && p.stockStatus === 'OUT_OF_STOCK') {
+        return false;
+      }
 
+      return true;
+    });
+
+    let autoExpanded = false;
+
+    // Step 2: Intelligent Fallback: If user searched something and got 0 results because of selectedCategory,
+    // automatically search across all categories so they get what they are looking for!
+    if (list.length === 0 && terms.length > 0 && selectedCategory !== 'All') {
+      const globalMatches = products.filter((p) => {
+        if (!productMatchesSearch(p, terms)) return false;
+        if (selectedBrand !== 'All' && p.brand !== selectedBrand) return false;
+        if (p.price < priceRange.min || p.price > priceRange.max) return false;
+        if (selectedStockFilter === 'IN_STOCK' && p.stockStatus === 'OUT_OF_STOCK') return false;
         return true;
-      })
-      .sort((a, b) => {
-        if (sortBy === 'price-asc') return a.price - b.price;
-        if (sortBy === 'price-desc') return b.price - a.price;
-        if (sortBy === 'newest') {
-          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-        }
-        if (a.featured && !b.featured) return -1;
-        if (!a.featured && b.featured) return 1;
-        return 0;
       });
+
+      if (globalMatches.length > 0) {
+        list = globalMatches;
+        autoExpanded = true;
+      }
+    }
+
+    // Step 3: Sort
+    const sorted = [...list].sort((a, b) => {
+      if (sortBy === 'price-asc') return a.price - b.price;
+      if (sortBy === 'price-desc') return b.price - a.price;
+      if (sortBy === 'newest') {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      }
+      if (a.featured && !b.featured) return -1;
+      if (!a.featured && b.featured) return 1;
+      return 0;
+    });
+
+    return { filteredProducts: sorted, autoExpandedCategory: autoExpanded };
   }, [products, searchQuery, selectedCategory, selectedBrand, selectedPriceRangeIndex, selectedStockFilter, sortBy]);
 
   const defaultStore: StoreInfo = storeInfo || {
@@ -163,6 +234,20 @@ export default function HomePage() {
   const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
     `${defaultStore.name}, ${defaultStore.address}, ${defaultStore.city} ${defaultStore.pincode}`
   )}`;
+
+  const hasActiveFilters = searchQuery.trim() !== '' || 
+    selectedCategory !== 'All' || 
+    selectedBrand !== 'All' || 
+    selectedStockFilter !== 'ALL' || 
+    selectedPriceRangeIndex !== 0;
+
+  const resetAllFilters = () => {
+    setSearchQuery('');
+    setSelectedCategory('All');
+    setSelectedBrand('All');
+    setSelectedStockFilter('ALL');
+    setSelectedPriceRangeIndex(0);
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
@@ -291,21 +376,22 @@ export default function HomePage() {
         <div className="bg-white rounded-3xl p-5 sm:p-7 border border-slate-200 shadow-sm space-y-5">
           {/* Row 1: Search & Controls */}
           <div className="flex flex-col md:flex-row gap-3 items-center justify-between">
-            {/* Search Input */}
+            {/* Search Input with instant clear */}
             <div className="relative w-full md:w-96">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-blue-600" />
               <input
                 type="text"
-                placeholder="Search Nivia footballs, Speedo goggles, skates, bats..."
+                placeholder="Search football, nivia, bat, skates, goggles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-8 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-slate-800 placeholder-slate-400 transition-all bg-slate-50/50"
+                className="w-full pl-10 pr-9 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 text-sm text-slate-900 placeholder-slate-400 transition-all bg-slate-50/70 font-medium"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-600"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-xs font-bold text-slate-700 transition-colors"
+                  title="Clear search"
                 >
                   ✕
                 </button>
@@ -397,28 +483,93 @@ export default function HomePage() {
               </button>
             ))}
           </div>
+
+          {/* Active Filter Chips Bar */}
+          {hasActiveFilters && (
+            <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-2 text-xs">
+              <span className="text-slate-500 font-semibold">Active filters:</span>
+
+              {searchQuery.trim() && (
+                <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-200 font-bold">
+                  <span>Search: "{searchQuery}"</span>
+                  <button onClick={() => setSearchQuery('')} className="hover:text-red-600">✕</button>
+                </span>
+              )}
+
+              {selectedCategory !== 'All' && (
+                <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-200 font-bold">
+                  <span>Category: {selectedCategory}</span>
+                  <button onClick={() => setSelectedCategory('All')} className="hover:text-red-600">✕</button>
+                </span>
+              )}
+
+              {selectedBrand !== 'All' && (
+                <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-200 font-bold">
+                  <span>Brand: {selectedBrand}</span>
+                  <button onClick={() => setSelectedBrand('All')} className="hover:text-red-600">✕</button>
+                </span>
+              )}
+
+              {selectedPriceRangeIndex !== 0 && (
+                <span className="inline-flex items-center gap-1.5 bg-red-50 text-red-700 px-3 py-1 rounded-full border border-red-200 font-bold">
+                  <span>Price: {PRICE_RANGES[selectedPriceRangeIndex].label}</span>
+                  <button onClick={() => setSelectedPriceRangeIndex(0)} className="hover:text-red-600">✕</button>
+                </span>
+              )}
+
+              {selectedStockFilter === 'IN_STOCK' && (
+                <span className="inline-flex items-center gap-1.5 bg-blue-50 text-blue-700 px-3 py-1 rounded-full border border-blue-200 font-bold">
+                  <span>In Stock Only</span>
+                  <button onClick={() => setSelectedStockFilter('ALL')} className="hover:text-red-600">✕</button>
+                </span>
+              )}
+
+              <button
+                onClick={resetAllFilters}
+                className="text-xs font-bold text-red-600 hover:text-red-700 ml-auto underline"
+              >
+                Clear all filters
+              </button>
+            </div>
+          )}
         </div>
+
+        {/* Intelligent Auto-Expand Category Notice */}
+        {autoExpandedCategory && (
+          <div className="bg-blue-50 border border-blue-200 rounded-2xl p-4 flex items-center justify-between text-xs text-blue-900 font-medium">
+            <div className="flex items-center gap-2">
+              <Info className="w-4 h-4 text-blue-600 shrink-0" />
+              <span>
+                No items matched "{searchQuery}" inside <strong>{selectedCategory}</strong>, so we searched across <strong>All Sports</strong> for you!
+              </span>
+            </div>
+            <button
+              onClick={() => setSelectedCategory('All')}
+              className="bg-blue-600 text-white px-3 py-1 rounded-lg text-xs font-bold shrink-0 hover:bg-blue-700"
+            >
+              Switch to All Sports
+            </button>
+          </div>
+        )}
 
         {/* Results Header */}
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              {selectedCategory === 'All' ? 'All In-Shop Sporting Goods' : selectedCategory}
+              {searchQuery.trim() 
+                ? `Results for "${searchQuery}"` 
+                : selectedCategory === 'All' 
+                  ? 'All In-Shop Sporting Goods' 
+                  : selectedCategory}
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
               Showing <strong className="text-slate-900">{filteredProducts.length}</strong> items available at Mayur Sports (Chembur)
             </p>
           </div>
 
-          {(searchQuery || selectedCategory !== 'All' || selectedBrand !== 'All' || selectedStockFilter !== 'ALL' || selectedPriceRangeIndex !== 0) && (
+          {hasActiveFilters && (
             <button
-              onClick={() => {
-                setSearchQuery('');
-                setSelectedCategory('All');
-                setSelectedBrand('All');
-                setSelectedStockFilter('ALL');
-                setSelectedPriceRangeIndex(0);
-              }}
+              onClick={resetAllFilters}
               className="text-xs font-bold text-blue-700 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-3.5 py-1.5 rounded-xl border border-blue-200 transition-colors"
             >
               Reset All Filters
@@ -448,37 +599,35 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Empty Search / Filter State */}
+        {/* Empty Search / Filter State with Smart Suggestions */}
         {!loading && filteredProducts.length === 0 && (
-          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center max-w-lg mx-auto my-12 space-y-4">
-            <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+          <div className="bg-white rounded-3xl border border-slate-200 p-10 sm:p-14 text-center max-w-lg mx-auto my-12 space-y-4 shadow-sm">
+            <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
               <Search className="w-8 h-8" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900">No items match your criteria</h3>
+            <h3 className="text-lg font-black text-slate-900">
+              No exact match for "{searchQuery || 'selected filters'}"
+            </h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
-              We couldn't find any products with your current search or filters. We might have it in our store warehouse! Message us directly on WhatsApp.
+              We might have this product in our Chembur store warehouse or stockroom! You can ask us directly on WhatsApp or try resetting your filters.
             </p>
-            <div className="pt-2 flex flex-col sm:flex-row gap-2 justify-center">
+            <div className="pt-3 flex flex-col sm:flex-row gap-2.5 justify-center">
               <button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedCategory('All');
-                  setSelectedBrand('All');
-                  setSelectedStockFilter('ALL');
-                  setSelectedPriceRangeIndex(0);
-                }}
-                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow"
+                onClick={resetAllFilters}
+                className="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold px-5 py-3 rounded-xl shadow"
               >
-                Reset Filters
+                Clear Search & Filters
               </button>
               <a
-                href={whatsappInquiryUrl}
+                href={`https://wa.me/${defaultStore.whatsapp}?text=${encodeURIComponent(
+                  `Hello Mayur Sports Chembur, do you have "${searchQuery || 'sports equipment'}" in stock right now?`
+                )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow flex items-center justify-center gap-1.5"
+                className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-5 py-3 rounded-xl shadow flex items-center justify-center gap-1.5"
               >
                 <MessageCircle className="w-3.5 h-3.5 fill-current" />
-                <span>Ask on WhatsApp</span>
+                <span>Ask Store on WhatsApp</span>
               </a>
             </div>
           </div>

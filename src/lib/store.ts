@@ -9,9 +9,16 @@ declare global {
   var __mayur_sports_store_info: StoreInfo | undefined;
 }
 
-const DATA_DIR = path.join(process.cwd(), 'data');
-const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
-const STORE_FILE = path.join(DATA_DIR, 'store.json');
+// In Vercel serverless functions, the root is read-only. Use /tmp which is writable.
+const isVercel = Boolean(process.env.VERCEL);
+const DATA_DIR = isVercel ? '/tmp' : path.join(process.cwd(), 'data');
+const PRODUCTS_FILE = path.join(DATA_DIR, 'mayur_products.json');
+const STORE_FILE = path.join(DATA_DIR, 'mayur_store.json');
+
+// Local fallback file path when running locally
+const LOCAL_DATA_DIR = path.join(process.cwd(), 'data');
+const LOCAL_PRODUCTS_FILE = path.join(LOCAL_DATA_DIR, 'products.json');
+const LOCAL_STORE_FILE = path.join(LOCAL_DATA_DIR, 'store.json');
 
 function ensureDataFile() {
   try {
@@ -19,18 +26,29 @@ function ensureDataFile() {
       fs.mkdirSync(DATA_DIR, { recursive: true });
     }
     if (!fs.existsSync(PRODUCTS_FILE)) {
-      fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(initialProducts, null, 2), 'utf-8');
+      // First try to copy from local data if exists
+      if (fs.existsSync(LOCAL_PRODUCTS_FILE)) {
+        const content = fs.readFileSync(LOCAL_PRODUCTS_FILE, 'utf-8');
+        fs.writeFileSync(PRODUCTS_FILE, content, 'utf-8');
+      } else {
+        fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(initialProducts, null, 2), 'utf-8');
+      }
     }
     if (!fs.existsSync(STORE_FILE)) {
-      fs.writeFileSync(STORE_FILE, JSON.stringify(initialStoreInfo, null, 2), 'utf-8');
+      if (fs.existsSync(LOCAL_STORE_FILE)) {
+        const content = fs.readFileSync(LOCAL_STORE_FILE, 'utf-8');
+        fs.writeFileSync(STORE_FILE, content, 'utf-8');
+      } else {
+        fs.writeFileSync(STORE_FILE, JSON.stringify(initialStoreInfo, null, 2), 'utf-8');
+      }
     }
-  } catch {
-    // In read-only serverless environments (like standard Vercel lambdas), fallback to memory
+  } catch (err) {
+    console.error('Storage ensureDataFile warning:', err);
   }
 }
 
 function loadProducts(): Product[] {
-  if (global.__mayur_sports_products) {
+  if (global.__mayur_sports_products && global.__mayur_sports_products.length > 0) {
     return global.__mayur_sports_products;
   }
 
@@ -40,11 +58,27 @@ function loadProducts(): Product[] {
     if (fs.existsSync(PRODUCTS_FILE)) {
       const raw = fs.readFileSync(PRODUCTS_FILE, 'utf-8');
       const parsed = JSON.parse(raw);
-      global.__mayur_sports_products = parsed;
-      return parsed;
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        global.__mayur_sports_products = parsed;
+        return parsed;
+      }
     }
-  } catch {
-    // Fallback to initial seed
+  } catch (err) {
+    console.error('Error loading products from file:', err);
+  }
+
+  // Fallback to local data file if running locally
+  try {
+    if (fs.existsSync(LOCAL_PRODUCTS_FILE)) {
+      const raw = fs.readFileSync(LOCAL_PRODUCTS_FILE, 'utf-8');
+      const parsed = JSON.parse(raw);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        global.__mayur_sports_products = parsed;
+        return parsed;
+      }
+    }
+  } catch (err) {
+    console.error('Error loading local seed file:', err);
   }
 
   global.__mayur_sports_products = [...initialProducts];
@@ -56,8 +90,12 @@ function saveProducts(products: Product[]): void {
   try {
     ensureDataFile();
     fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(products, null, 2), 'utf-8');
-  } catch {
-    // Read-only serverless filesystem
+    // Also update local file if running in local environment
+    if (!isVercel && fs.existsSync(LOCAL_DATA_DIR)) {
+      fs.writeFileSync(LOCAL_PRODUCTS_FILE, JSON.stringify(products, null, 2), 'utf-8');
+    }
+  } catch (err) {
+    console.error('Error saving products:', err);
   }
 }
 
@@ -75,9 +113,16 @@ function loadStoreInfo(): StoreInfo {
       global.__mayur_sports_store_info = parsed;
       return parsed;
     }
-  } catch {
-    // Fallback
-  }
+  } catch {}
+
+  try {
+    if (fs.existsSync(LOCAL_STORE_FILE)) {
+      const raw = fs.readFileSync(LOCAL_STORE_FILE, 'utf-8');
+      const parsed = JSON.parse(raw);
+      global.__mayur_sports_store_info = parsed;
+      return parsed;
+    }
+  } catch {}
 
   global.__mayur_sports_store_info = { ...initialStoreInfo };
   return global.__mayur_sports_store_info;
@@ -88,8 +133,11 @@ function saveStoreInfo(info: StoreInfo): void {
   try {
     ensureDataFile();
     fs.writeFileSync(STORE_FILE, JSON.stringify(info, null, 2), 'utf-8');
-  } catch {
-    // Read-only serverless filesystem
+    if (!isVercel && fs.existsSync(LOCAL_DATA_DIR)) {
+      fs.writeFileSync(LOCAL_STORE_FILE, JSON.stringify(info, null, 2), 'utf-8');
+    }
+  } catch (err) {
+    console.error('Error saving store info:', err);
   }
 }
 
