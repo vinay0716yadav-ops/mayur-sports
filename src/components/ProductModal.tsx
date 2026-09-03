@@ -54,12 +54,12 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, storeInfo, 
           {/* Badges */}
           <div className="absolute top-4 left-4 flex flex-col gap-1.5">
             {discount > 0 && (
-              <span className="text-xs font-black text-white bg-rose-600 px-3 py-1 rounded-full shadow-md">
+              <span className="text-xs font-black text-white bg-red-600 px-3 py-1 rounded-full shadow-md shadow-red-600/30">
                 SAVE ₹{savings.toLocaleString('en-IN')} ({discount}% OFF)
               </span>
             )}
             {product.badge && (
-              <span className="text-xs font-bold text-white bg-slate-950 px-3 py-1 rounded-full shadow-sm flex items-center gap-1">
+              <span className="text-xs font-bold text-white bg-blue-950 px-3 py-1 rounded-full shadow-sm flex items-center gap-1 border border-blue-400/30">
                 <Sparkles className="w-3 h-3 text-amber-400" />
                 {product.badge}
               </span>
@@ -71,22 +71,22 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, storeInfo, 
         <div className="md:w-1/2 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto">
           <div>
             {/* Header info */}
-            <div className="flex items-center gap-2 text-xs font-black text-emerald-700 uppercase tracking-wider mb-2">
-              <span className="bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200/60">{product.category}</span>
+            <div className="flex items-center gap-2 text-xs font-black text-blue-700 uppercase tracking-wider mb-2">
+              <span className="bg-blue-50 px-2.5 py-0.5 rounded border border-blue-200">{product.category}</span>
               <span>•</span>
               <span className="text-slate-500">{product.brand}</span>
             </div>
 
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900 leading-snug">
+            <h2 className="text-xl sm:text-2xl font-black text-slate-950 leading-snug">
               {product.name}
             </h2>
 
             {/* Price section */}
-            <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-baseline justify-between">
+            <div className="mt-4 p-4 rounded-2xl bg-blue-50/50 border border-blue-100 flex items-baseline justify-between">
               <div>
-                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">In-Shop Special Price</div>
+                <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">In-Shop Special Price</div>
                 <div className="flex items-baseline gap-3 mt-0.5">
-                  <span className="text-3xl font-black text-slate-900 tracking-tight">
+                  <span className="text-3xl font-black text-slate-950 tracking-tight">
                     ₹{product.price.toLocaleString('en-IN')}
                   </span>
                   {product.mrp > product.price && (
@@ -100,20 +100,20 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, storeInfo, 
               {/* Stock status indicator */}
               <div>
                 {product.stockStatus === 'IN_STOCK' && (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-700 bg-emerald-100/70 px-3 py-1.5 rounded-full">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-800 bg-blue-100 px-3 py-1.5 rounded-full">
+                    <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
                     In Stock
                   </span>
                 )}
                 {product.stockStatus === 'LOW_STOCK' && (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-100/70 px-3 py-1.5 rounded-full">
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1.5 rounded-full">
                     <AlertTriangle className="w-4 h-4 text-amber-600" />
                     Limited Stock
                   </span>
                 )}
                 {product.stockStatus === 'OUT_OF_STOCK' && (
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-rose-700 bg-rose-100/70 px-3 py-1.5 rounded-full">
-                    <XCircle className="w-4 h-4 text-rose-600" />
+                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-red-700 bg-red-100 px-3 py-1.5 rounded-full">
+                    <XCircle className="w-4 h-4 text-red-600" />
                     Out of Stock
                   </span>
                 )}
@@ -135,7 +135,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, storeInfo, 
                 <ul className="space-y-1.5">
                   {product.features.map((feat, idx) => (
                     <li key={idx} className="text-xs text-slate-700 flex items-start gap-2">
-                      <Sparkles className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                      <Sparkles className="w-3.5 h-3.5 text-red-600 shrink-0 mt-0.5" />
                       <span>{feat}</span>
                     </li>
                   ))}
@@ -144,8 +144,8 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, storeInfo, 
             )}
 
             {/* Store Location note */}
-            <div className="mt-4 p-3 rounded-xl bg-emerald-50/70 border border-emerald-200/60 text-xs text-emerald-900 flex items-start gap-2">
-              <MapPin className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+            <div className="mt-4 p-3 rounded-xl bg-blue-50/70 border border-blue-200/60 text-xs text-blue-950 flex items-start gap-2">
+              <MapPin className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
               <span>Available for immediate pickup at: <strong>{storeInfo.address}, Chembur</strong></span>
             </div>
           </div>
@@ -156,7 +156,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, storeInfo, 
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-black text-sm shadow-lg shadow-emerald-600/30 transition-all hover:scale-[1.01]"
+              className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-black text-sm shadow-lg shadow-red-600/30 transition-all hover:scale-[1.01]"
             >
               <MessageCircle className="w-5 h-5 fill-current" />
               <span>Inquire / Hold on WhatsApp</span>
@@ -166,7 +166,7 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, storeInfo, 
               href={`tel:${storeInfo.phone}`}
               className="w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl border border-slate-200 text-slate-700 hover:bg-slate-50 font-bold text-xs transition-colors"
             >
-              <Phone className="w-3.5 h-3.5 text-slate-600" />
+              <Phone className="w-3.5 h-3.5 text-blue-600" />
               <span>Call Shop: {storeInfo.phone}</span>
             </a>
           </div>

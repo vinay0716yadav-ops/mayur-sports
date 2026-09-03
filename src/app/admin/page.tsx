@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Product, StoreInfo, Category, StockStatus } from '@/lib/types';
@@ -11,7 +11,6 @@ import {
   Trash2,
   Search,
   LogOut,
-  RefreshCw,
   ExternalLink,
   PackageCheck,
   AlertTriangle,
@@ -21,16 +20,20 @@ import {
   Check,
   X,
   Sparkles,
-  Layers
+  Layers,
+  Camera,
+  Image as ImageIcon,
+  Upload,
+  Link2
 } from 'lucide-react';
 
 const CATEGORIES: Category[] = [
   'Cricket',
   'Badminton',
   'Football',
-  'Fitness & Gym',
   'Swimming',
   'Skating',
+  'Fitness & Gym',
   'Tennis & TT',
   'Shoes & Wear',
   'Accessories',
@@ -58,6 +61,12 @@ export default function AdminDashboardPage() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [deletingProductId, setDeletingProductId] = useState<string | null>(null);
+
+  // Image upload options
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const [isCompressingImage, setIsCompressingImage] = useState(false);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   // Form State for Add / Edit
   const [formData, setFormData] = useState({
@@ -121,6 +130,61 @@ export default function AdminDashboardPage() {
     }
   }, [authorized]);
 
+  // Client-side image compression for mobile camera / gallery uploads
+  const handleFileProcess = (file: File) => {
+    setIsCompressingImage(true);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (e) => {
+      const img = new Image();
+      img.src = e.target?.result as string;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 800;
+        const MAX_HEIGHT = 800;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height = Math.round((height * MAX_WIDTH) / width);
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width = Math.round((width * MAX_HEIGHT) / height);
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          setFormData((prev) => ({ ...prev, imageUrl: compressedDataUrl }));
+        }
+        setIsCompressingImage(false);
+      };
+      img.onerror = () => {
+        setIsCompressingImage(false);
+        alert('Failed to process image file');
+      };
+    };
+    reader.onerror = () => {
+      setIsCompressingImage(false);
+      alert('Error reading file');
+    };
+  };
+
+  const handleImageFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      handleFileProcess(file);
+    }
+  };
+
   // Logout
   const handleLogout = () => {
     localStorage.removeItem('mayur_admin_token');
@@ -168,6 +232,7 @@ export default function AdminDashboardPage() {
       badge: '',
       featured: false,
     });
+    setShowUrlInput(false);
     setIsAddModalOpen(true);
   };
 
@@ -188,6 +253,7 @@ export default function AdminDashboardPage() {
       badge: product.badge || '',
       featured: Boolean(product.featured),
     });
+    setShowUrlInput(false);
   };
 
   // Submit Add or Edit
@@ -327,7 +393,7 @@ export default function AdminDashboardPage() {
     setTimeout(() => setActionMessage(null), 3500);
   };
 
-  // Stats calculations
+  // Stats
   const stats = useMemo(() => {
     const total = products.length;
     const inStock = products.filter((p) => p.stockStatus === 'IN_STOCK').length;
@@ -338,7 +404,7 @@ export default function AdminDashboardPage() {
     return { total, inStock, lowStock, outOfStock, totalInventoryValue };
   }, [products]);
 
-  // Filtered products inside admin
+  // Filtered
   const filteredProducts = useMemo(() => {
     return products.filter((p) => {
       if (adminSearch.trim()) {
@@ -357,34 +423,51 @@ export default function AdminDashboardPage() {
   }, [products, adminSearch, adminCategory]);
 
   if (!authorized) {
-    return null; // Will redirect via useEffect
+    return null;
   }
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      {/* Hidden file inputs for Camera & Gallery */}
+      <input
+        type="file"
+        ref={galleryInputRef}
+        accept="image/*"
+        className="hidden"
+        onChange={handleImageFileChange}
+      />
+      <input
+        type="file"
+        ref={cameraInputRef}
+        accept="image/*"
+        capture="environment"
+        className="hidden"
+        onChange={handleImageFileChange}
+      />
+
       {/* Toast Notification */}
       {actionMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-emerald-500 text-slate-950 font-bold px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 animate-in slide-in-from-bottom duration-300">
+        <div className="fixed bottom-6 right-6 z-50 bg-gradient-to-r from-red-600 to-blue-600 text-white font-bold px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-2 animate-in slide-in-from-bottom duration-300">
           <Check className="w-4 h-4" />
           <span>{actionMessage.text}</span>
         </div>
       )}
 
       {/* Admin Top Navigation */}
-      <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-30">
+      <header className="bg-slate-900 border-b border-slate-800 sticky top-0 z-30 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/30">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-red-600 via-rose-600 to-blue-600 flex items-center justify-center text-white shadow-md shadow-red-600/30">
               <Flame className="w-6 h-6 fill-current" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <span className="text-lg font-black tracking-tight text-white">MAYUR SPORTS</span>
-                <span className="bg-emerald-500/20 text-emerald-400 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-emerald-500/30 uppercase">
+                <span className="bg-red-600/20 text-red-400 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-red-500/30 uppercase">
                   Admin Panel
                 </span>
               </div>
-              <span className="text-[11px] text-slate-400">Live Inventory & Price Control</span>
+              <span className="text-[11px] text-blue-300 font-medium">Chembur Store • Live Inventory & Price Control</span>
             </div>
           </div>
 
@@ -392,15 +475,15 @@ export default function AdminDashboardPage() {
             <Link
               href="/"
               target="_blank"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 px-3.5 py-2 rounded-xl transition-colors border border-slate-700"
+              className="inline-flex items-center gap-1.5 text-xs font-bold bg-blue-900/60 hover:bg-blue-800 text-blue-100 px-3.5 py-2 rounded-xl transition-colors border border-blue-700/50"
             >
               <span>View Customer Site</span>
-              <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
+              <ExternalLink className="w-3.5 h-3.5 text-blue-300" />
             </Link>
 
             <button
               onClick={handleLogout}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-3.5 py-2 rounded-xl border border-rose-500/30 transition-colors"
+              className="inline-flex items-center gap-1.5 text-xs font-bold bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3.5 py-2 rounded-xl border border-red-500/30 transition-colors"
               title="Logout"
             >
               <LogOut className="w-3.5 h-3.5" />
@@ -417,20 +500,20 @@ export default function AdminDashboardPage() {
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5">
             <div className="flex items-center justify-between text-slate-400 text-xs font-bold uppercase tracking-wider">
               <span>Total Items</span>
-              <Layers className="w-4 h-4 text-emerald-400" />
+              <Layers className="w-4 h-4 text-blue-400" />
             </div>
             <div className="text-2xl sm:text-3xl font-black text-white mt-2">
               {stats.total}
             </div>
-            <div className="text-[11px] text-slate-500 mt-1">Products in shop</div>
+            <div className="text-[11px] text-slate-500 mt-1">Products in catalog</div>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5">
-            <div className="flex items-center justify-between text-emerald-400 text-xs font-bold uppercase tracking-wider">
+            <div className="flex items-center justify-between text-blue-400 text-xs font-bold uppercase tracking-wider">
               <span>In Stock</span>
-              <PackageCheck className="w-4 h-4 text-emerald-400" />
+              <PackageCheck className="w-4 h-4 text-blue-400" />
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-emerald-400 mt-2">
+            <div className="text-2xl sm:text-3xl font-black text-blue-400 mt-2">
               {stats.inStock}
             </div>
             <div className="text-[11px] text-slate-500 mt-1">Ready for pickup</div>
@@ -448,25 +531,25 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5">
-            <div className="flex items-center justify-between text-rose-400 text-xs font-bold uppercase tracking-wider">
+            <div className="flex items-center justify-between text-red-400 text-xs font-bold uppercase tracking-wider">
               <span>Out of Stock</span>
-              <XCircle className="w-4 h-4 text-rose-400" />
+              <XCircle className="w-4 h-4 text-red-400" />
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-rose-400 mt-2">
+            <div className="text-2xl sm:text-3xl font-black text-red-400 mt-2">
               {stats.outOfStock}
             </div>
             <div className="text-[11px] text-slate-500 mt-1">Unavailable</div>
           </div>
 
           <div className="col-span-2 lg:col-span-1 bg-slate-900 border border-slate-800 rounded-2xl p-4 sm:p-5">
-            <div className="flex items-center justify-between text-teal-400 text-xs font-bold uppercase tracking-wider">
+            <div className="flex items-center justify-between text-red-400 text-xs font-bold uppercase tracking-wider">
               <span>Inventory Value</span>
-              <IndianRupee className="w-4 h-4 text-teal-400" />
+              <IndianRupee className="w-4 h-4 text-red-400" />
             </div>
             <div className="text-2xl sm:text-3xl font-black text-white mt-2">
               ₹{(stats.totalInventoryValue / 1000).toFixed(1)}k
             </div>
-            <div className="text-[11px] text-slate-500 mt-1">Approx catalog stock</div>
+            <div className="text-[11px] text-slate-500 mt-1">Estimated total stock</div>
           </div>
         </div>
 
@@ -474,13 +557,13 @@ export default function AdminDashboardPage() {
         <div className="bg-slate-900 border border-slate-800 rounded-3xl p-5 sm:p-6 shadow-sm">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center shrink-0">
+              <div className="w-10 h-10 rounded-xl bg-red-500/10 text-red-400 flex items-center justify-center shrink-0">
                 <Megaphone className="w-5 h-5" />
               </div>
               <div>
                 <h3 className="text-sm font-bold text-white">Live Store Announcement Banner</h3>
                 <p className="text-xs text-slate-400 mt-0.5">
-                  This message is prominently displayed at the very top of the customer website.
+                  Displays at the very top of the live customer website in Chembur.
                 </p>
               </div>
             </div>
@@ -490,14 +573,14 @@ export default function AdminDashboardPage() {
                 type="text"
                 value={announcementText}
                 onChange={(e) => setAnnouncementText(e.target.value)}
-                placeholder="e.g., 20% discount on Cricket equipment this week!"
-                className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                placeholder="e.g., 25% discount on Cricket & Football equipment!"
+                className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="button"
                 onClick={handleSaveAnnouncement}
                 disabled={updatingAnnouncement}
-                className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5 shrink-0"
+                className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5 shrink-0 shadow-md shadow-red-600/20"
               >
                 {announcementSuccess ? <Check className="w-4 h-4" /> : null}
                 <span>{updatingAnnouncement ? 'Saving...' : announcementSuccess ? 'Saved!' : 'Update Banner'}</span>
@@ -513,13 +596,13 @@ export default function AdminDashboardPage() {
             <div>
               <h2 className="text-xl font-black text-white tracking-tight">Products Management</h2>
               <p className="text-xs text-slate-400 mt-0.5">
-                Add new items, update prices, and change stock availability in real time
+                Add new items with camera or gallery photos, update prices, and control stock availability
               </p>
             </div>
 
             <button
               onClick={openAddModal}
-              className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-5 py-3 rounded-xl shadow-lg shadow-emerald-600/20 transition-all hover:scale-105 active:scale-95"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white text-xs font-bold px-5 py-3 rounded-xl shadow-lg shadow-red-600/30 transition-all hover:scale-105 active:scale-95"
             >
               <Plus className="w-4 h-4" />
               <span>Add New Product</span>
@@ -535,7 +618,7 @@ export default function AdminDashboardPage() {
                 placeholder="Search products in admin..."
                 value={adminSearch}
                 onChange={(e) => setAdminSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                className="w-full pl-10 pr-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
@@ -543,7 +626,7 @@ export default function AdminDashboardPage() {
               <button
                 onClick={() => setAdminCategory('All')}
                 className={`text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${
-                  adminCategory === 'All' ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
+                  adminCategory === 'All' ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
                 }`}
               >
                 All ({products.length})
@@ -553,7 +636,7 @@ export default function AdminDashboardPage() {
                   key={cat}
                   onClick={() => setAdminCategory(cat)}
                   className={`text-xs font-bold px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${
-                    adminCategory === cat ? 'bg-emerald-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
+                    adminCategory === cat ? 'bg-blue-600 text-white' : 'bg-slate-800 text-slate-400 hover:text-white'
                   }`}
                 >
                   {cat}
@@ -589,7 +672,7 @@ export default function AdminDashboardPage() {
                       <div className="max-w-xs">
                         <div className="font-bold text-white line-clamp-1">{product.name}</div>
                         {product.badge && (
-                          <span className="inline-block mt-0.5 text-[10px] font-bold text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded border border-emerald-800">
+                          <span className="inline-block mt-0.5 text-[10px] font-bold text-red-400 bg-red-950/80 px-1.5 py-0.5 rounded border border-red-800">
                             {product.badge}
                           </span>
                         )}
@@ -598,7 +681,7 @@ export default function AdminDashboardPage() {
 
                     {/* Category & Brand */}
                     <td className="p-4">
-                      <div className="font-semibold text-slate-200">{product.category}</div>
+                      <div className="font-semibold text-blue-300">{product.category}</div>
                       <div className="text-[11px] text-slate-500">{product.brand}</div>
                     </td>
 
@@ -623,8 +706,8 @@ export default function AdminDashboardPage() {
                         title="Click to cycle: In Stock -> Low Stock -> Out of Stock"
                       >
                         {product.stockStatus === 'IN_STOCK' && (
-                          <span className="text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-1 rounded-md flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-emerald-500" /> In Stock
+                          <span className="text-blue-400 bg-blue-950/60 border border-blue-800/60 px-2.5 py-1 rounded-md flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" /> In Stock
                           </span>
                         )}
                         {product.stockStatus === 'LOW_STOCK' && (
@@ -633,8 +716,8 @@ export default function AdminDashboardPage() {
                           </span>
                         )}
                         {product.stockStatus === 'OUT_OF_STOCK' && (
-                          <span className="text-rose-400 bg-rose-950/60 border border-rose-800/60 px-2.5 py-1 rounded-md flex items-center gap-1.5">
-                            <span className="w-2 h-2 rounded-full bg-rose-500" /> Out of Stock
+                          <span className="text-red-400 bg-red-950/60 border border-red-800/60 px-2.5 py-1 rounded-md flex items-center gap-1.5">
+                            <span className="w-2 h-2 rounded-full bg-red-500" /> Out of Stock
                           </span>
                         )}
                       </button>
@@ -645,7 +728,7 @@ export default function AdminDashboardPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => openEditModal(product)}
-                          className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors"
+                          className="p-2 rounded-lg bg-slate-800 hover:bg-blue-900/40 text-slate-300 hover:text-blue-400 transition-colors"
                           title="Edit Product"
                         >
                           <Edit2 className="w-4 h-4" />
@@ -653,7 +736,7 @@ export default function AdminDashboardPage() {
 
                         <button
                           onClick={() => setDeletingProductId(product.id)}
-                          className="p-2 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 transition-colors"
+                          className="p-2 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 transition-colors"
                           title="Delete Product"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -676,13 +759,13 @@ export default function AdminDashboardPage() {
         </div>
       </main>
 
-      {/* Add / Edit Product Modal */}
+      {/* Add / Edit Product Modal with Camera & Gallery Upload */}
       {(isAddModalOpen || editingProduct) && (
         <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl w-full max-w-2xl overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200">
             <div className="p-6 border-b border-slate-800 flex items-center justify-between">
               <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-emerald-400" />
+                <Sparkles className="w-5 h-5 text-red-500" />
                 <span>{editingProduct ? 'Edit Product' : 'Add New Product to Catalog'}</span>
               </h3>
               <button
@@ -696,7 +779,118 @@ export default function AdminDashboardPage() {
               </button>
             </div>
 
-            <form onSubmit={handleSaveProduct} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
+            <form onSubmit={handleSaveProduct} className="p-6 space-y-5 max-h-[80vh] overflow-y-auto">
+              {/* Product Photo Upload Section (Camera & Gallery) */}
+              <div className="p-4 rounded-2xl bg-slate-950 border border-slate-800 space-y-3">
+                <div className="flex items-center justify-between">
+                  <label className="block text-xs font-bold text-slate-200 uppercase tracking-wider">
+                    Product Image (Photo from Camera / Gallery) *
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setShowUrlInput(!showUrlInput)}
+                    className="text-[11px] text-blue-400 hover:text-blue-300 font-semibold flex items-center gap-1"
+                  >
+                    <Link2 className="w-3 h-3" />
+                    <span>{showUrlInput ? 'Hide URL field' : 'Use web link instead'}</span>
+                  </button>
+                </div>
+
+                {/* Live Image Preview or Upload Buttons */}
+                {formData.imageUrl ? (
+                  <div className="flex items-center gap-4">
+                    <div className="w-24 h-24 rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden shrink-0 relative group">
+                      <img src={formData.imageUrl} alt="Product" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="space-y-2">
+                      <div className="text-xs text-blue-400 font-bold flex items-center gap-1.5">
+                        <Check className="w-3.5 h-3.5 text-red-500" />
+                        <span>Photo loaded & optimized</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => cameraInputRef.current?.click()}
+                          className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 border border-slate-700"
+                        >
+                          <Camera className="w-3.5 h-3.5 text-red-400" />
+                          <span>Retake Photo</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => galleryInputRef.current?.click()}
+                          className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold flex items-center gap-1.5 border border-slate-700"
+                        >
+                          <ImageIcon className="w-3.5 h-3.5 text-blue-400" />
+                          <span>Choose Another</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setFormData((prev) => ({ ...prev, imageUrl: '' }))}
+                          className="px-3 py-1.5 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs font-bold border border-red-500/30"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {/* Camera Button */}
+                    <button
+                      type="button"
+                      onClick={() => cameraInputRef.current?.click()}
+                      className="p-4 rounded-xl border-2 border-dashed border-red-500/40 hover:border-red-500 bg-red-500/5 hover:bg-red-500/10 text-red-300 flex flex-col items-center justify-center gap-2 transition-all group"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
+                        <Camera className="w-5 h-5" />
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xs font-black text-white">Take Photo (Camera)</div>
+                        <div className="text-[10px] text-slate-400">Snap product with mobile camera</div>
+                      </div>
+                    </button>
+
+                    {/* Gallery Button */}
+                    <button
+                      type="button"
+                      onClick={() => galleryInputRef.current?.click()}
+                      className="p-4 rounded-xl border-2 border-dashed border-blue-500/40 hover:border-blue-500 bg-blue-500/5 hover:bg-blue-500/10 text-blue-300 flex flex-col items-center justify-center gap-2 transition-all group"
+                    >
+                      <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 group-hover:scale-110 transition-transform">
+                        <ImageIcon className="w-5 h-5" />
+                      </div>
+                      <div className="text-center">
+                        <div className="text-xs font-black text-white">Upload from Gallery</div>
+                        <div className="text-[10px] text-slate-400">Select file from device / phone gallery</div>
+                      </div>
+                    </button>
+                  </div>
+                )}
+
+                {/* Optional Web URL input */}
+                {showUrlInput && (
+                  <div className="pt-2 border-t border-slate-800">
+                    <label className="block text-[11px] font-bold text-slate-400 mb-1">
+                      Or Paste Image URL:
+                    </label>
+                    <input
+                      type="url"
+                      placeholder="https://..."
+                      value={formData.imageUrl}
+                      onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                      className="w-full px-3.5 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                )}
+
+                {isCompressingImage && (
+                  <div className="text-xs text-amber-400 font-semibold flex items-center gap-1.5 animate-pulse">
+                    <span>Compressing and optimizing photo for instant loading...</span>
+                  </div>
+                )}
+              </div>
+
               {/* Product Name */}
               <div>
                 <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
@@ -705,10 +899,10 @@ export default function AdminDashboardPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g., SS Master 5000 Cricket Bat"
+                  placeholder="e.g., Nivia Storm Football Size 5"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -721,7 +915,7 @@ export default function AdminDashboardPage() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value as Category })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     {CATEGORIES.map((c) => (
                       <option key={c} value={c}>
@@ -737,10 +931,10 @@ export default function AdminDashboardPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g., SS, Yonex, SG, Nivia, Cosco"
+                    placeholder="e.g., Nivia, Speedo, Yonex, Cosco, SS"
                     value={formData.brand}
                     onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -755,10 +949,10 @@ export default function AdminDashboardPage() {
                     type="number"
                     required
                     min="1"
-                    placeholder="e.g., 2499"
+                    placeholder="e.g., 899"
                     value={formData.price}
                     onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -769,10 +963,10 @@ export default function AdminDashboardPage() {
                   <input
                     type="number"
                     min="1"
-                    placeholder="e.g., 3499 (for discount calculation)"
+                    placeholder="e.g., 1250 (for discount display)"
                     value={formData.mrp}
                     onChange={(e) => setFormData({ ...formData, mrp: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
               </div>
@@ -786,10 +980,10 @@ export default function AdminDashboardPage() {
                   <select
                     value={formData.stockStatus}
                     onChange={(e) => setFormData({ ...formData, stockStatus: e.target.value as StockStatus })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
                     <option value="IN_STOCK">In Stock</option>
-                    <option value="LOW_STOCK">Limited Stock (Few Units Left)</option>
+                    <option value="LOW_STOCK">Limited Stock (Few Left)</option>
                     <option value="OUT_OF_STOCK">Out of Stock</option>
                   </select>
                 </div>
@@ -803,28 +997,9 @@ export default function AdminDashboardPage() {
                     min="0"
                     value={formData.stockCount}
                     onChange={(e) => setFormData({ ...formData, stockCount: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
-              </div>
-
-              {/* Image URL with preview */}
-              <div>
-                <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
-                  Product Image URL
-                </label>
-                <input
-                  type="url"
-                  placeholder="https://images.unsplash.com/... or any public image URL"
-                  value={formData.imageUrl}
-                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                />
-                {formData.imageUrl && (
-                  <div className="mt-2 w-20 h-20 rounded-xl bg-slate-950 border border-slate-800 overflow-hidden">
-                    <img src={formData.imageUrl} alt="Preview" className="w-full h-full object-cover" />
-                  </div>
-                )}
               </div>
 
               {/* Badge & Featured */}
@@ -835,10 +1010,10 @@ export default function AdminDashboardPage() {
                   </label>
                   <input
                     type="text"
-                    placeholder="e.g. Best Seller, Tournament Choice"
+                    placeholder="e.g. Bestseller, Match Grade, Hot Deal"
                     value={formData.badge}
                     onChange={(e) => setFormData({ ...formData, badge: e.target.value })}
-                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
                 </div>
 
@@ -848,7 +1023,7 @@ export default function AdminDashboardPage() {
                       type="checkbox"
                       checked={formData.featured}
                       onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                      className="w-4 h-4 rounded text-emerald-600 focus:ring-emerald-500 bg-slate-950 border-slate-800"
+                      className="w-4 h-4 rounded text-red-600 focus:ring-blue-500 bg-slate-950 border-slate-800"
                     />
                     <span className="text-xs font-bold text-slate-300">Feature on Homepage</span>
                   </label>
@@ -862,24 +1037,24 @@ export default function AdminDashboardPage() {
                 </label>
                 <textarea
                   rows={3}
-                  placeholder="Details about craftsmanship, material, weight, feel, and recommendations..."
+                  placeholder="Material, feel, size, match standard, recommendations..."
                   value={formData.description}
                   onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               {/* Features Tags */}
               <div>
                 <label className="block text-xs font-bold text-slate-300 uppercase mb-1">
-                  Highlights / Specs (Comma-separated)
+                  Specifications / Features (Comma-separated)
                 </label>
                 <input
                   type="text"
-                  placeholder="e.g., English Willow, 40mm Edges, 9-piece Cane Handle, Full Cover Included"
+                  placeholder="e.g., Size 5 Match Ball, 32-Panel, High Air Retention Butyl Bladder"
                   value={formData.features}
                   onChange={(e) => setFormData({ ...formData, features: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3.5 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -897,8 +1072,8 @@ export default function AdminDashboardPage() {
                 </button>
                 <button
                   type="submit"
-                  disabled={formSubmitting}
-                  className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg transition-all"
+                  disabled={formSubmitting || isCompressingImage}
+                  className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white text-xs font-black shadow-lg shadow-red-600/30 transition-all disabled:opacity-50"
                 >
                   {formSubmitting ? 'Saving...' : editingProduct ? 'Save Changes' : 'Add Product'}
                 </button>
@@ -912,7 +1087,7 @@ export default function AdminDashboardPage() {
       {deletingProductId && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-slate-900 border border-slate-800 rounded-3xl p-6 max-w-sm w-full space-y-4 shadow-2xl">
-            <div className="w-12 h-12 rounded-full bg-rose-500/10 text-rose-400 flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 rounded-full bg-red-500/10 text-red-400 flex items-center justify-center mx-auto">
               <Trash2 className="w-6 h-6" />
             </div>
             <div className="text-center">
@@ -932,7 +1107,7 @@ export default function AdminDashboardPage() {
               <button
                 type="button"
                 onClick={handleDeleteProduct}
-                className="py-2.5 px-4 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold shadow"
+                className="py-2.5 px-4 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold shadow"
               >
                 Yes, Delete
               </button>

@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { StoreInfo } from '@/lib/types';
-import { Phone, MessageCircle, MapPin, Clock, ShieldCheck, Award, Truck, Lock, Navigation } from 'lucide-react';
+import { Phone, MessageCircle, MapPin, Clock, ShieldCheck, Award, Truck, Lock } from 'lucide-react';
 
 interface FooterProps {
   storeInfo: StoreInfo;
@@ -13,8 +13,8 @@ export const Footer: React.FC<FooterProps> = ({ storeInfo }) => {
       {/* Brand Trust Badges */}
       <div className="border-b border-slate-800/80 bg-slate-900/60 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-red-500/30 transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500 shrink-0">
               <ShieldCheck className="w-6 h-6" />
             </div>
             <div>
@@ -23,8 +23,8 @@ export const Footer: React.FC<FooterProps> = ({ storeInfo }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-blue-500/30 transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 shrink-0">
               <Award className="w-6 h-6" />
             </div>
             <div>
@@ -33,8 +33,8 @@ export const Footer: React.FC<FooterProps> = ({ storeInfo }) => {
             </div>
           </div>
 
-          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 shrink-0">
+          <div className="flex items-center gap-4 p-4 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-red-500/30 transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-red-500/10 flex items-center justify-center text-red-500 shrink-0">
               <Truck className="w-6 h-6" />
             </div>
             <div>
@@ -51,7 +51,7 @@ export const Footer: React.FC<FooterProps> = ({ storeInfo }) => {
           {/* Col 1: Store Bio */}
           <div className="md:col-span-2 space-y-4">
             <h3 className="text-2xl font-black text-white tracking-tight">
-              MAYUR <span className="text-emerald-400">SPORTS</span>
+              MAYUR <span className="text-red-500">SPORTS</span>
             </h3>
             <p className="text-xs sm:text-sm text-slate-400 max-w-md leading-relaxed">
               Chembur's premier sports equipment specialist. Serving athletes, academies, school champions, fitness enthusiasts, and tournament players with top-tier equipment at competitive direct-shop prices.
@@ -69,9 +69,9 @@ export const Footer: React.FC<FooterProps> = ({ storeInfo }) => {
 
           {/* Col 2: Store Location & Timings */}
           <div className="space-y-3">
-            <h4 className="text-white font-bold text-xs tracking-wider uppercase">Chembur Shop Location</h4>
+            <h4 className="text-white font-bold text-xs tracking-wider uppercase text-blue-400">Chembur Shop Location</h4>
             <div className="flex items-start gap-3 text-xs text-slate-300">
-              <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <MapPin className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
               <div className="leading-relaxed">
                 <span className="font-bold text-white">Mayur Sports</span><br />
                 {storeInfo.address},<br />
@@ -80,28 +80,28 @@ export const Footer: React.FC<FooterProps> = ({ storeInfo }) => {
             </div>
 
             <div className="flex items-start gap-3 text-xs text-slate-400 pt-1">
-              <Clock className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+              <Clock className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
               <span>{storeInfo.openingHours}</span>
             </div>
           </div>
 
           {/* Col 3: Quick Contact & Admin */}
           <div className="space-y-3">
-            <h4 className="text-white font-bold text-xs tracking-wider uppercase">Contact & Inquiries</h4>
+            <h4 className="text-white font-bold text-xs tracking-wider uppercase text-blue-400">Contact & Inquiries</h4>
             <div className="flex items-center gap-3 text-xs text-slate-300">
-              <Phone className="w-4 h-4 text-emerald-400" />
-              <a href={`tel:${storeInfo.phone}`} className="hover:text-emerald-400 transition-colors font-semibold">
+              <Phone className="w-4 h-4 text-red-500" />
+              <a href={`tel:${storeInfo.phone}`} className="hover:text-red-400 transition-colors font-semibold">
                 {storeInfo.phone}
               </a>
             </div>
 
             <div className="flex items-center gap-3 text-xs text-slate-300">
-              <MessageCircle className="w-4 h-4 text-emerald-400" />
+              <MessageCircle className="w-4 h-4 text-red-500" />
               <a
                 href={`https://wa.me/${storeInfo.whatsapp}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-emerald-400 transition-colors font-semibold"
+                className="hover:text-red-400 transition-colors font-semibold"
               >
                 WhatsApp Order Line
               </a>
@@ -112,7 +112,7 @@ export const Footer: React.FC<FooterProps> = ({ storeInfo }) => {
                 href="/admin"
                 className="inline-flex items-center gap-1.5 text-xs text-slate-400 hover:text-white bg-slate-900 hover:bg-slate-800 px-3.5 py-2 rounded-xl border border-slate-800 transition-colors"
               >
-                <Lock className="w-3.5 h-3.5 text-emerald-400" />
+                <Lock className="w-3.5 h-3.5 text-blue-400" />
                 <span>Shop Admin Login</span>
               </Link>
             </div>

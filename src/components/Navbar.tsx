@@ -13,15 +13,15 @@ export const Navbar: React.FC<NavbarProps> = ({ storeInfo }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const whatsappUrl = `https://wa.me/${storeInfo.whatsapp}?text=${encodeURIComponent(
-    `Hello Mayur Sports! I am looking for sporting goods from your Chembur store and would like to check prices and availability.`
+    `Hello Mayur Sports (Chembur)! I am visiting your website and would like to inquire about sports gear availability.`
   )}`;
 
   return (
     <header className="sticky top-0 z-40 w-full shadow-md">
-      {/* Top Announcement Bar */}
+      {/* Top Announcement Bar - Dynamic Red & Navy Banner */}
       {storeInfo.announcement && (
-        <div className="bg-gradient-to-r from-slate-950 via-emerald-900 to-slate-950 text-emerald-200 text-xs py-2.5 px-4 text-center font-medium border-b border-emerald-800/40 shadow-inner flex items-center justify-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-amber-400 shrink-0 animate-pulse" />
+        <div className="bg-gradient-to-r from-blue-950 via-slate-900 to-red-950 text-slate-100 text-xs py-2 px-4 text-center font-medium border-b border-red-500/20 shadow-inner flex items-center justify-center gap-2">
+          <Sparkles className="w-3.5 h-3.5 text-red-400 shrink-0 animate-pulse" />
           <span className="font-semibold tracking-wide text-white">{storeInfo.announcement}</span>
         </div>
       )}
@@ -30,41 +30,41 @@ export const Navbar: React.FC<NavbarProps> = ({ storeInfo }) => {
       <div className="bg-white/95 backdrop-blur-md border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16 sm:h-20">
-            {/* Brand Logo */}
+            {/* Brand Logo with Red & Blue Athletic Flame */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-emerald-600 via-emerald-500 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-emerald-600/30 group-hover:scale-105 transition-all duration-300">
+              <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-gradient-to-tr from-red-600 via-rose-600 to-blue-600 flex items-center justify-center text-white shadow-lg shadow-red-600/20 group-hover:scale-105 transition-all duration-300">
                 <Flame className="w-6 h-6 sm:w-7 sm:h-7 text-white fill-current" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-900 group-hover:text-emerald-700 transition-colors">
-                  MAYUR <span className="text-emerald-600">SPORTS</span>
+                <span className="text-xl sm:text-2xl font-black tracking-tight text-slate-950 group-hover:text-red-600 transition-colors">
+                  MAYUR <span className="text-red-600">SPORTS</span>
                 </span>
-                <span className="text-[10px] sm:text-[11px] font-bold text-slate-500 uppercase tracking-wider -mt-1">
-                  Chembur, Mumbai • Genuine Sports Hub
+                <span className="text-[10px] sm:text-[11px] font-bold text-blue-800 uppercase tracking-wider -mt-1">
+                  Chembur, Mumbai • Authentic Sports Hub
                 </span>
               </div>
             </Link>
 
             {/* Desktop Navigation & Actions */}
             <div className="hidden md:flex items-center gap-4 lg:gap-6">
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200/60">
-                <MapPin className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span className="max-w-[200px] truncate" title={`${storeInfo.address}, Chembur, Mumbai`}>
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-blue-50/80 px-3 py-1.5 rounded-full border border-blue-100">
+                <MapPin className="w-3.5 h-3.5 text-red-600 shrink-0" />
+                <span className="max-w-[200px] truncate font-bold text-slate-800" title={`${storeInfo.address}, Chembur, Mumbai`}>
                   Chembur, Mumbai
                 </span>
               </div>
 
-              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-600 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200/60">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>Nivia • Yonex • SS • Speedo</span>
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-blue-50/80 px-3 py-1.5 rounded-full border border-blue-100">
+                <ShieldCheck className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                <span className="font-medium text-slate-700">Nivia • Yonex • SS • Speedo</span>
               </div>
 
               {/* Call Store */}
               <a
                 href={`tel:${storeInfo.phone}`}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-700 hover:text-emerald-700 px-3 py-2 rounded-xl transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-800 hover:text-blue-600 px-3 py-2 rounded-xl transition-colors"
               >
-                <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                <Phone className="w-3.5 h-3.5 text-red-600" />
                 <span>{storeInfo.phone}</span>
               </a>
 
@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({ storeInfo }) => {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold px-4 py-2.5 rounded-xl shadow-md shadow-emerald-600/30 transition-all hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white text-xs sm:text-sm font-black px-4 py-2.5 rounded-xl shadow-md shadow-red-600/30 transition-all hover:scale-105 active:scale-95"
               >
                 <MessageCircle className="w-4 h-4 fill-current" />
                 <span>WhatsApp Order</span>
@@ -82,21 +82,21 @@ export const Navbar: React.FC<NavbarProps> = ({ storeInfo }) => {
               {/* Admin Portal Link */}
               <Link
                 href="/admin"
-                className="inline-flex items-center gap-1.5 text-slate-500 hover:text-slate-900 text-xs font-bold p-2 rounded-lg hover:bg-slate-100 transition-colors"
+                className="inline-flex items-center gap-1.5 text-slate-600 hover:text-blue-700 text-xs font-bold p-2 rounded-lg hover:bg-slate-100 transition-colors"
                 title="Admin Control Panel"
               >
-                <Lock className="w-3.5 h-3.5" />
+                <Lock className="w-3.5 h-3.5 text-blue-600" />
                 <span className="hidden lg:inline">Admin</span>
               </Link>
             </div>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Actions */}
             <div className="flex items-center gap-2 md:hidden">
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center p-2 rounded-xl bg-emerald-600 text-white text-xs font-bold shadow-sm"
+                className="inline-flex items-center justify-center p-2 rounded-xl bg-red-600 text-white text-xs font-bold shadow-sm"
                 aria-label="WhatsApp"
               >
                 <MessageCircle className="w-5 h-5 fill-current" />
@@ -129,16 +129,16 @@ export const Navbar: React.FC<NavbarProps> = ({ storeInfo }) => {
                 href={`tel:${storeInfo.phone}`}
                 className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl border border-slate-200 text-slate-800 font-bold text-xs hover:bg-slate-50"
               >
-                <Phone className="w-4 h-4 text-emerald-600" />
+                <Phone className="w-4 h-4 text-red-600" />
                 <span>Call Store: {storeInfo.phone}</span>
               </a>
 
               <Link
                 href="/admin"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800"
+                className="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-blue-950 text-white font-bold text-xs hover:bg-blue-900"
               >
-                <Lock className="w-3.5 h-3.5" />
+                <Lock className="w-3.5 h-3.5 text-blue-400" />
                 <span>Shop Admin Login</span>
               </Link>
             </div>

@@ -9,20 +9,14 @@ import { ProductModal } from '@/components/ProductModal';
 import { 
   Search, 
   Sparkles, 
-  Flame, 
   CheckCircle2, 
   MessageCircle, 
   Phone, 
   MapPin, 
-  ShieldCheck, 
   RefreshCw,
   ShoppingBag,
   ArrowUpDown,
   Navigation,
-  Waves,
-  Award,
-  Zap,
-  Tag
 } from 'lucide-react';
 
 const CATEGORIES: ('All' | Category)[] = [
@@ -174,45 +168,46 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900">
       <Navbar storeInfo={defaultStore} />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 text-white pt-12 pb-16 sm:pb-24 overflow-hidden border-b border-emerald-900/30">
-        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#10b981_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
-        <div className="absolute -top-24 right-0 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
+      {/* Hero Section with Athletic Red & Royal Blue Aesthetics */}
+      <section className="relative bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 text-white pt-12 pb-16 sm:pb-24 overflow-hidden border-b border-blue-900/40">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
+        <div className="absolute -top-24 right-0 w-96 h-96 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/2 left-0 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Left Hero Text */}
             <div className="lg:col-span-8 space-y-5 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">
-                <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-                <span>Chembur, Mumbai • Direct Shop Catalog & Pricing</span>
+              <div className="inline-flex items-center gap-2 bg-red-600/15 border border-red-500/40 text-red-300 px-4 py-1.5 rounded-full text-xs font-black uppercase tracking-wider">
+                <MapPin className="w-3.5 h-3.5 text-red-400" />
+                <span>Chembur, Mumbai • Live In-Store Catalog & Pricing</span>
               </div>
 
               <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-tight">
-                Authentic Sporting Gear at <span className="text-emerald-400">Mayur Sports</span>
+                Gear Up for Victory with <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-rose-400 to-blue-400">Mayur Sports</span>
               </h1>
 
               <p className="text-slate-300 text-sm sm:text-base max-w-2xl leading-relaxed">
-                Explore real-time in-store prices and availability for <strong>Nivia footballs, Speedo swimming goggles, Cosco skates, SS cricket bats, and Yonex badminton rackets</strong>. Reserve your gear with 1-click on WhatsApp for instant shop pickup in Chembur!
+                Explore real-time in-store prices and availability for <strong>Nivia footballs & studs, Speedo swimming gear, Cosco skates, SS English Willow cricket bats, and Yonex badminton rackets</strong>. Reserve with 1-click on WhatsApp for immediate pickup at our Chembur store!
               </p>
 
               {/* Quick Action CTAs */}
               <div className="pt-2 flex flex-wrap gap-3 justify-center lg:justify-start">
                 <a
                   href="#catalog"
-                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-emerald-600/30 transition-all hover:scale-105 active:scale-95"
+                  className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white font-black text-sm px-6 py-3.5 rounded-xl shadow-lg shadow-red-600/30 transition-all hover:scale-105 active:scale-95"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span>Browse Available Equipment</span>
+                  <span>Browse Available Gear</span>
                 </a>
 
                 <a
                   href={whatsappInquiryUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-sm px-6 py-3.5 rounded-xl backdrop-blur-sm transition-all"
+                  className="inline-flex items-center gap-2 bg-blue-600/80 hover:bg-blue-600 text-white border border-blue-500/30 font-bold text-sm px-6 py-3.5 rounded-xl backdrop-blur-sm transition-all hover:scale-105"
                 >
-                  <MessageCircle className="w-4 h-4 fill-current text-emerald-400" />
+                  <MessageCircle className="w-4 h-4 fill-current text-white" />
                   <span>Message on WhatsApp</span>
                 </a>
 
@@ -222,36 +217,36 @@ export default function HomePage() {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-slate-300 hover:text-white font-bold text-xs px-4 py-3.5 rounded-xl transition-colors"
                 >
-                  <Navigation className="w-4 h-4 text-emerald-400" />
-                  <span>Directions to Store</span>
+                  <Navigation className="w-4 h-4 text-red-400" />
+                  <span>Get Directions</span>
                 </a>
               </div>
             </div>
 
             {/* Right Highlights Cards */}
             <div className="lg:col-span-4 grid grid-cols-2 gap-3 sm:gap-4">
-              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 text-center backdrop-blur-md hover:border-emerald-500/40 transition-colors">
-                <div className="text-2xl sm:text-3xl font-black text-emerald-400">Nivia</div>
+              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 text-center backdrop-blur-md hover:border-red-500/50 transition-colors">
+                <div className="text-2xl sm:text-3xl font-black text-red-500">Nivia</div>
                 <div className="text-xs font-bold text-slate-200 mt-1">Official Dealer</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">Footballs, Studs, Guards</div>
+                <div className="text-[11px] text-slate-400 mt-0.5">Balls, Studs, Guards</div>
               </div>
 
-              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 text-center backdrop-blur-md hover:border-emerald-500/40 transition-colors">
-                <div className="text-2xl sm:text-3xl font-black text-teal-400">Swim & Skate</div>
-                <div className="text-xs font-bold text-slate-200 mt-1">Full Range In Stock</div>
+              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 text-center backdrop-blur-md hover:border-blue-500/50 transition-colors">
+                <div className="text-2xl sm:text-3xl font-black text-blue-400">Swim & Skate</div>
+                <div className="text-xs font-bold text-slate-200 mt-1">Full Equipment</div>
                 <div className="text-[11px] text-slate-400 mt-0.5">Goggles, Caps, Skates</div>
               </div>
 
-              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 text-center backdrop-blur-md hover:border-emerald-500/40 transition-colors">
-                <div className="text-2xl sm:text-3xl font-black text-amber-400">Direct Rates</div>
+              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 text-center backdrop-blur-md hover:border-red-500/50 transition-colors">
+                <div className="text-2xl sm:text-3xl font-black text-red-400">Direct Rates</div>
                 <div className="text-xs font-bold text-slate-200 mt-1">Best Shop Pricing</div>
                 <div className="text-[11px] text-slate-400 mt-0.5">Discounts up to 35%</div>
               </div>
 
-              <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 text-center backdrop-blur-md hover:border-emerald-500/40 transition-colors">
-                <div className="text-2xl sm:text-3xl font-black text-emerald-400">Instant Hold</div>
-                <div className="text-xs font-bold text-slate-200 mt-1">WhatsApp Reserve</div>
-                <div className="text-[11px] text-slate-400 mt-0.5">Chembur Shop Pickup</div>
+              <div className="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 text-center backdrop-blur-md hover:border-blue-500/50 transition-colors">
+                <div className="text-2xl sm:text-3xl font-black text-blue-400">Instant Hold</div>
+                <div className="text-xs font-bold text-slate-200 mt-1">WhatsApp Hold</div>
+                <div className="text-[11px] text-slate-400 mt-0.5">Chembur Store Pickup</div>
               </div>
             </div>
           </div>
@@ -278,8 +273,8 @@ export default function HomePage() {
                 }}
                 className={`p-3 rounded-2xl flex flex-col items-center justify-center gap-1 transition-all ${
                   selectedCategory === cat.label
-                    ? 'bg-emerald-600 text-white font-black shadow-lg shadow-emerald-600/30'
-                    : 'bg-slate-900/60 hover:bg-slate-800 text-slate-300 font-semibold border border-slate-800'
+                    ? 'bg-blue-600 text-white font-black shadow-lg shadow-blue-600/40 scale-105 border border-blue-400'
+                    : 'bg-slate-900/70 hover:bg-slate-800 text-slate-300 font-semibold border border-slate-800'
                 }`}
               >
                 <span className="text-xl">{cat.icon}</span>
@@ -301,10 +296,10 @@ export default function HomePage() {
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
                 type="text"
-                placeholder="Search Nivia footballs, goggles, skates, bats..."
+                placeholder="Search Nivia footballs, Speedo goggles, skates, bats..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-8 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm text-slate-800 placeholder-slate-400 transition-all bg-slate-50/50"
+                className="w-full pl-10 pr-8 py-3 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm text-slate-800 placeholder-slate-400 transition-all bg-slate-50/50"
               />
               {searchQuery && (
                 <button
@@ -325,7 +320,7 @@ export default function HomePage() {
                 <select
                   value={selectedBrand}
                   onChange={(e) => setSelectedBrand(e.target.value)}
-                  className="text-xs font-bold bg-slate-100 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="text-xs font-bold bg-slate-100 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   {availableBrands.map((b) => (
                     <option key={b} value={b}>
@@ -341,7 +336,7 @@ export default function HomePage() {
                 <select
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value as any)}
-                  className="text-xs font-bold bg-slate-100 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="text-xs font-bold bg-slate-100 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                   <option value="featured">Featured First</option>
                   <option value="price-asc">Price: Low to High</option>
@@ -356,11 +351,11 @@ export default function HomePage() {
                 onClick={() => setSelectedStockFilter(selectedStockFilter === 'ALL' ? 'IN_STOCK' : 'ALL')}
                 className={`text-xs font-bold px-3 py-2.5 rounded-xl border transition-all flex items-center gap-1.5 ${
                   selectedStockFilter === 'IN_STOCK'
-                    ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-sm'
+                    ? 'bg-blue-50 border-blue-500 text-blue-700 shadow-sm'
                     : 'bg-slate-100 border-slate-200 text-slate-600 hover:bg-slate-200/80'
                 }`}
               >
-                <CheckCircle2 className={`w-3.5 h-3.5 ${selectedStockFilter === 'IN_STOCK' ? 'text-emerald-600' : 'text-slate-400'}`} />
+                <CheckCircle2 className={`w-3.5 h-3.5 ${selectedStockFilter === 'IN_STOCK' ? 'text-blue-600' : 'text-slate-400'}`} />
                 <span>In Stock Only</span>
               </button>
             </div>
@@ -375,7 +370,7 @@ export default function HomePage() {
                   onClick={() => setSelectedCategory(cat)}
                   className={`text-xs font-bold px-4 py-2 rounded-xl whitespace-nowrap transition-all ${
                     selectedCategory === cat
-                      ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/30'
+                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200 hover:text-slate-900'
                   }`}
                 >
@@ -394,7 +389,7 @@ export default function HomePage() {
                 onClick={() => setSelectedPriceRangeIndex(idx)}
                 className={`text-xs font-semibold px-3 py-1.5 rounded-lg whitespace-nowrap transition-colors ${
                   selectedPriceRangeIndex === idx
-                    ? 'bg-slate-900 text-white font-bold shadow-sm'
+                    ? 'bg-red-600 text-white font-bold shadow-sm'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
@@ -424,7 +419,7 @@ export default function HomePage() {
                 setSelectedStockFilter('ALL');
                 setSelectedPriceRangeIndex(0);
               }}
-              className="text-xs font-bold text-emerald-700 hover:text-emerald-800 bg-emerald-50 hover:bg-emerald-100 px-3.5 py-1.5 rounded-xl border border-emerald-200 transition-colors"
+              className="text-xs font-bold text-blue-700 hover:text-blue-800 bg-blue-50 hover:bg-blue-100 px-3.5 py-1.5 rounded-xl border border-blue-200 transition-colors"
             >
               Reset All Filters
             </button>
@@ -434,7 +429,7 @@ export default function HomePage() {
         {/* Loading Spinner */}
         {loading && (
           <div className="py-24 text-center space-y-3">
-            <RefreshCw className="w-8 h-8 text-emerald-600 animate-spin mx-auto" />
+            <RefreshCw className="w-8 h-8 text-blue-600 animate-spin mx-auto" />
             <p className="text-sm font-bold text-slate-700">Loading live inventory from Mayur Sports Chembur...</p>
           </div>
         )}
@@ -480,7 +475,7 @@ export default function HomePage() {
                 href={whatsappInquiryUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow flex items-center justify-center gap-1.5"
+                className="bg-red-600 hover:bg-red-500 text-white text-xs font-bold px-4 py-2.5 rounded-xl shadow flex items-center justify-center gap-1.5"
               >
                 <MessageCircle className="w-3.5 h-3.5 fill-current" />
                 <span>Ask on WhatsApp</span>
@@ -489,12 +484,12 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Chembur Store Location & Landmark Card */}
-        <section className="mt-16 bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 rounded-3xl p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-emerald-900/40">
+        {/* Chembur Store Location & Landmark Card with Red & Blue Gradients */}
+        <section className="mt-16 bg-gradient-to-br from-slate-950 via-blue-950 to-red-950 rounded-3xl p-6 sm:p-10 text-white shadow-2xl relative overflow-hidden border border-blue-900/40">
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 bg-emerald-950/80 px-3.5 py-1.5 rounded-full uppercase tracking-wider border border-emerald-800">
-                <MapPin className="w-3.5 h-3.5 text-emerald-400" /> Chembur Store Location
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-red-300 bg-red-950/80 px-3.5 py-1.5 rounded-full uppercase tracking-wider border border-red-800">
+                <MapPin className="w-3.5 h-3.5 text-red-400" /> Chembur Store Location
               </span>
 
               <h3 className="text-2xl sm:text-3xl font-black tracking-tight">
@@ -518,7 +513,7 @@ export default function HomePage() {
                   href={mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs px-5 py-3 rounded-xl shadow-lg shadow-emerald-600/30 transition-all"
+                  className="inline-flex items-center gap-2 bg-red-600 hover:bg-red-500 text-white font-black text-xs px-5 py-3 rounded-xl shadow-lg shadow-red-600/30 transition-all"
                 >
                   <Navigation className="w-4 h-4" />
                   <span>Open in Google Maps</span>
@@ -528,7 +523,7 @@ export default function HomePage() {
                   href={`tel:${defaultStore.phone}`}
                   className="inline-flex items-center gap-2 bg-white text-slate-900 font-bold text-xs px-5 py-3 rounded-xl hover:bg-slate-100 shadow transition-colors"
                 >
-                  <Phone className="w-4 h-4 text-emerald-700" />
+                  <Phone className="w-4 h-4 text-red-600" />
                   <span>Call Store: {defaultStore.phone}</span>
                 </a>
 
@@ -536,9 +531,9 @@ export default function HomePage() {
                   href={whatsappInquiryUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white border border-white/20 font-bold text-xs px-5 py-3 rounded-xl backdrop-blur-sm transition-all"
+                  className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white border border-blue-400/30 font-bold text-xs px-5 py-3 rounded-xl backdrop-blur-sm transition-all"
                 >
-                  <MessageCircle className="w-4 h-4 fill-current text-emerald-400" />
+                  <MessageCircle className="w-4 h-4 fill-current text-white" />
                   <span>WhatsApp Reservation</span>
                 </a>
               </div>
@@ -546,22 +541,22 @@ export default function HomePage() {
 
             {/* Landmark Quick Highlight Box */}
             <div className="lg:col-span-4 bg-slate-900/90 border border-slate-800 rounded-2xl p-5 space-y-3">
-              <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider">Prominent Landmarks</h4>
+              <h4 className="text-xs font-bold text-red-400 uppercase tracking-wider">Prominent Landmarks</h4>
               <ul className="text-xs text-slate-300 space-y-2">
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-400 font-bold">•</span>
+                  <span className="text-red-400 font-bold">•</span>
                   <span><strong>Below Hotel Vaishali</strong></span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-400 font-bold">•</span>
+                  <span className="text-red-400 font-bold">•</span>
                   <span><strong>Opposite Canara Bank</strong> (Chembur Main Branch)</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-400 font-bold">•</span>
+                  <span className="text-red-400 font-bold">•</span>
                   <span>Navketan Building, M D, S Marg</span>
                 </li>
                 <li className="flex items-start gap-2">
-                  <span className="text-emerald-400 font-bold">•</span>
+                  <span className="text-red-400 font-bold">•</span>
                   <span>Easy parking & close to Chembur Station</span>
                 </li>
               </ul>
