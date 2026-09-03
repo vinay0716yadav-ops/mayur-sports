@@ -133,10 +133,10 @@ export default function HomePage() {
     tagline: "Authentic Sporting Goods & Tournament Gear",
     phone: "+91 98220 12345",
     whatsapp: "919822012345",
-    address: "Shop No. 12, Shivaji Stadium Complex, M.G. Road",
-    city: "Pune",
+    address: "Shop No 4, Navketan Building, M D, S Marg, below Hotel Vaishali, opp. CANARA BANK - MUMBAI CHEMBUR MAIN, Chembur",
+    city: "Mumbai",
     state: "Maharashtra",
-    pincode: "411001",
+    pincode: "400071",
     openingHours: "Mon - Sat: 9:30 AM to 9:30 PM",
     announcement: "Special tournament season discount on all sports gear!",
   };
@@ -393,7 +393,7 @@ export default function HomePage() {
         <section className="mt-16 bg-gradient-to-r from-emerald-800 to-teal-900 rounded-3xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden">
           <div className="relative z-10 max-w-2xl space-y-4">
             <span className="inline-flex items-center gap-1.5 text-xs font-bold text-emerald-300 bg-emerald-950/60 px-3 py-1 rounded-full uppercase tracking-wider">
-              <MapPin className="w-3.5 h-3.5" /> Visit Our Pune Store
+              <MapPin className="w-3.5 h-3.5" /> Visit Our Chembur, Mumbai Store
             </span>
             <h3 className="text-2xl sm:text-3xl font-black">
               Looking for something specific or custom stringing?

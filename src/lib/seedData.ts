@@ -5,12 +5,12 @@ export const initialStoreInfo: StoreInfo = {
   tagline: "Your Premier Destination for Authentic Sporting Goods & Equipment",
   phone: "+91 98220 12345",
   whatsapp: "919822012345",
-  address: "Shop No. 12, Shivaji Stadium Complex, M.G. Road",
-  city: "Pune",
+  address: "Shop No 4, Navketan Building, M D, S Marg, below Hotel Vaishali, opp. CANARA BANK - MUMBAI CHEMBUR MAIN, Chembur",
+  city: "Mumbai",
   state: "Maharashtra",
-  pincode: "411001",
+  pincode: "400071",
   openingHours: "Mon - Sat: 9:30 AM to 9:30 PM | Sun: 10:00 AM to 6:00 PM",
-  announcement: "🔥 Special Tournament Season Discount: Up to 25% OFF on Cricket & Badminton Gear! Visit our shop or order directly on WhatsApp.",
+  announcement: "🔥 Special Tournament Season Discount: Up to 25% OFF on Cricket & Badminton Gear! Visit our Chembur shop or order directly on WhatsApp.",
 };
 
 export const initialProducts: Product[] = [
