@@ -715,7 +715,7 @@
     "brand": "Kore",
     "price": 1199,
     "mrp": 1899,
-    "stockStatus": "IN_STOCK",
+    "stockStatus": "LOW_STOCK",
     "stockCount": 12,
     "badge": "Gym Pick",
     "featured": false,
@@ -728,7 +728,7 @@
     ],
     "imageUrl": "https://images.unsplash.com/photo-1586401100295-7a8096fd231a?auto=format&fit=crop&w=800&q=80",
     "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
+    "updatedAt": "2026-09-04T06:39:09.872Z"
   },
   {
     "id": "prod-fit-2",
