@@ -571,27 +571,5 @@
     "imageUrl": "https://images.unsplash.com/photo-1587280501635-68a0e82cd5ff?auto=format&fit=crop&w=800&q=80",
     "createdAt": "2026-09-01T10:00:00.000Z",
     "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
-    "id": "prod-tt-stag",
-    "name": "Stag 2-Star Table Tennis Racket with Case",
-    "category": "Tennis & TT",
-    "brand": "Stag",
-    "price": 699,
-    "mrp": 950,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 18,
-    "badge": "TT Special",
-    "featured": false,
-    "description": "ITTF approved rubber with 1.8mm sponge. Provides excellent spin and control for intermediate table tennis players and school competitions.",
-    "features": [
-      "5-ply pure wood blade",
-      "ITTF approved rubber",
-      "Speed: 75 | Spin: 70 | Control: 85",
-      "Free zip carry cover included"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1534158914592-062992fbe900?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
   }
 ]
