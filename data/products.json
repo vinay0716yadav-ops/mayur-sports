@@ -110,28 +110,6 @@
     "updatedAt": "2026-09-04T09:04:11.283Z"
   },
   {
-    "id": "prod-fb-retro",
-    "name": "Nivia Encounter Retro 3D Football Studs (Men/Youth)",
-    "category": "Shoes & Wear",
-    "brand": "Nivia",
-    "price": 1449,
-    "mrp": 1899,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 18,
-    "badge": "Retro 3D Grip",
-    "featured": true,
-    "description": "Engineered for explosive acceleration and sharp turns. Soft TPU Fusion upper with 3D embossed touch zones, molded EVA insole, and high-tensile TPU stud sole (Catalogue Code: FB-1669).",
-    "features": [
-      "Soft TPU Fusion upper with 3D ball control embossing",
-      "Molded EVA insole for impact shock cushioning",
-      "Rigid TPU plate with multi-directional conical studs",
-      "Ideal for hard ground and natural grassy pitches"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1511886929837-354d827aae26?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-fb-safari",
     "name": "Nivia Safari 2.0 Football Studs",
     "category": "Shoes & Wear",
