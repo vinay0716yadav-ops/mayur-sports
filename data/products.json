@@ -247,7 +247,7 @@
     "brand": "Nivia",
     "price": 1799,
     "mrp": 2199,
-    "stockStatus": "IN_STOCK",
+    "stockStatus": "LOW_STOCK",
     "stockCount": 18,
     "badge": "",
     "featured": false,
@@ -260,7 +260,7 @@
     ],
     "imageUrl": "https://raw.githubusercontent.com/vinay0716yadav-ops/mayur-sports/main/public/uploads/upload-1788516100832-8myxl5.jpg",
     "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-04T10:02:08.406Z"
+    "updatedAt": "2026-09-04T16:25:44.358Z"
   },
   {
     "id": "prod-fb-ashtang-gloves",
