@@ -1,24 +1,5 @@
 [
   {
-    "name": "Test Volleyball Net Anchor",
-    "category": "Volleyball",
-    "brand": "Nivia",
-    "price": 299,
-    "mrp": 499,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 5,
-    "description": "Test persistence verification",
-    "features": [
-      "Test feature 1"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=800&q=80",
-    "badge": "Test",
-    "featured": false,
-    "id": "prod-1788503650729-fk3w",
-    "createdAt": "2026-09-04T06:34:10.729Z",
-    "updatedAt": "2026-09-04T06:34:10.729Z"
-  },
-  {
     "id": "prod-nivia-1",
     "name": "Nivia Storm Football - Size 5 (FIFA Basic Certified)",
     "category": "Football",
