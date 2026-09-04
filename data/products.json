@@ -78,28 +78,6 @@
     "updatedAt": "2026-09-04T07:44:24.239Z"
   },
   {
-    "id": "prod-volley-1",
-    "name": "Nivia Spikester Volleyball (18-Panel Match Ball)",
-    "category": "Volleyball",
-    "brand": "Nivia",
-    "price": 799,
-    "mrp": 1099,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 22,
-    "badge": "Bestseller",
-    "featured": true,
-    "description": "18-panel laminated composite leather construction. Soft touch exterior reduces sting on forearms during hard smashes, blocks, and float serves.",
-    "features": [
-      "Soft PU composite leather surface",
-      "18-panel precision laminated seams",
-      "Official tournament weight & circumference (Size 4)",
-      "High air retention butyl bladder"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-volley-2",
     "name": "Cosco Super Volley Leather Volleyball (Official Match)",
     "category": "Volleyball",
@@ -294,28 +272,6 @@
       "Universal fit for left or right leg"
     ],
     "imageUrl": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
-    "id": "prod-volley-1",
-    "name": "Nivia Spikester 18-Panel Volleyball (Official Match Ball)",
-    "category": "Volleyball",
-    "brand": "Nivia",
-    "price": 799,
-    "mrp": 1099,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 20,
-    "badge": "Tournament Grade",
-    "featured": true,
-    "description": "Official 18-panel laminated composite leather volleyball with ultra-soft micro-touch feel and butyl bladder for maximum air retention and true flight.",
-    "features": [
-      "Official Size 4/5 match specifications",
-      "18-panel laminated synthetic soft-touch cover",
-      "Reinforced wound bladder for accurate rebound",
-      "Ideal for indoor courts and outdoor sand/turf"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?auto=format&fit=crop&w=800&q=80",
     "createdAt": "2026-09-01T10:00:00.000Z",
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
