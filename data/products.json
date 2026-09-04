@@ -551,29 +551,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-crick-ss5000",
-    "name": "SS Master 5000 English Willow Cricket Bat",
-    "category": "Cricket",
-    "brand": "SS Sunridges",
-    "price": 6499,
-    "mrp": 8999,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 8,
-    "badge": "Pro Grade",
-    "featured": true,
-    "description": "Handcrafted from premium grade 2 English Willow. Massive 40mm thick edges and contoured blade for tremendous power and balance. Comes with grain protective sheet and padded bat cover.",
-    "features": [
-      "Grade 2 Hand Selected English Willow",
-      "Massive 40mm thick edges",
-      "Short handle with 9-piece cane handle",
-      "Lightweight pickup (1170 - 1200g)",
-      "Pre-knocked with toe guard"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-crick-ball",
     "name": "SG Club Leather Cricket Ball (Pack of 2 - Alum Tanned)",
     "category": "Cricket",
