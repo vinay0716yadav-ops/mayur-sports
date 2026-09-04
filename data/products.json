@@ -574,28 +574,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-crick-mrf",
-    "name": "MRF Genius Grand Edition Kashmir Willow Bat",
-    "category": "Cricket",
-    "brand": "MRF",
-    "price": 2299,
-    "mrp": 3200,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 15,
-    "badge": "Virat Kohli Series",
-    "featured": false,
-    "description": "Inspired by Virat Kohli playing profile. Selected top-grade Kashmir Willow with thick spine and balance suited for attacking strokeplay on club pitches.",
-    "features": [
-      "Select Kashmir Willow with clean grain structure",
-      "Full profile with mid-to-low sweet spot",
-      "Sarawak cane handle for vibration damping",
-      "Includes full padded carry cover"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-crick-ball",
     "name": "SG Club Leather Cricket Ball (Pack of 2 - Alum Tanned)",
     "category": "Cricket",
