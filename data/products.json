@@ -485,28 +485,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-badm-elbow",
-    "name": "Nivia Kinetic Badminton & Tennis Elbow Support",
-    "category": "Badminton",
-    "brand": "Nivia",
-    "price": 199,
-    "mrp": 279,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 25,
-    "badge": "Pain Relief",
-    "featured": false,
-    "description": "Targeted vibration dampening pad relieves tendon strain and prevents tennis/badminton elbow during smashes and backhands (Catalogue Code: ES-2726).",
-    "features": [
-      "Targeted tendon pressure pad",
-      "Breathable Lycra/Neoprene with Velcro strap",
-      "Prevents forearm vibration and fatigue",
-      "Universal adjustable fit (S to XL)"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-volley-spot",
     "name": "Nivia Spotvolley Leather Match Volleyball (Size 4)",
     "category": "Volleyball",
