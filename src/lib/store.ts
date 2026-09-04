@@ -175,8 +175,8 @@ function ensureLocalFiles() {
 
 async function loadProductsAsync(): Promise<Product[]> {
   const now = Date.now();
-  // If memory cache exists and was fetched less than 30s ago, return it immediately
-  if (global.__mayur_sports_products && global.__mayur_last_fetch && now - global.__mayur_last_fetch < 30000) {
+  // If memory cache exists and was fetched less than 3s ago, return it immediately
+  if (global.__mayur_sports_products && global.__mayur_last_fetch && now - global.__mayur_last_fetch < 3000) {
     return global.__mayur_sports_products;
   }
 

@@ -3,6 +3,14 @@ import { db } from '@/lib/store';
 
 export const dynamic = 'force-dynamic';
 
+const NO_CACHE_HEADERS = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+  'CDN-Cache-Control': 'no-store',
+  'Netlify-CDN-Cache-Control': 'no-store',
+  'Pragma': 'no-cache',
+  'Expires': '0',
+};
+
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }
@@ -10,11 +18,11 @@ export async function GET(
   try {
     const product = await db.getProductById(params.id);
     if (!product) {
-      return NextResponse.json({ success: false, message: 'Product not found' }, { status: 404 });
+      return NextResponse.json({ success: false, message: 'Product not found' }, { status: 404, headers: NO_CACHE_HEADERS });
     }
-    return NextResponse.json({ success: true, product });
+    return NextResponse.json({ success: true, product }, { headers: NO_CACHE_HEADERS });
   } catch (error) {
-    return NextResponse.json({ success: false, message: 'Server error' }, { status: 500 });
+    return NextResponse.json({ success: false, message: 'Server error' }, { status: 500, headers: NO_CACHE_HEADERS });
   }
 }
 

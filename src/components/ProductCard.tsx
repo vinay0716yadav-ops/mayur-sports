@@ -72,6 +72,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, storeInfo, on
           alt={product.name}
           className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
           loading="lazy"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80';
+          }}
         />
         {/* Quick View Hover Hint */}
         <div className="absolute inset-0 bg-blue-950/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">

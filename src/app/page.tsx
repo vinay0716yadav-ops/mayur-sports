@@ -60,12 +60,12 @@ export default function HomePage() {
 
   // Load products with single source of truth & offline cache fallback
   useEffect(() => {
-    async function fetchData() {
+    async function fetchData(silent = false) {
       try {
-        setLoading(true);
+        if (!silent) setLoading(true);
         const [prodRes, storeRes] = await Promise.all([
-          fetch('/api/products'),
-          fetch('/api/store')
+          fetch(`/api/products?_t=${Date.now()}`, { cache: 'no-store' }),
+          fetch(`/api/store?_t=${Date.now()}`, { cache: 'no-store' })
         ]);
 
         let apiProducts: Product[] = [];
@@ -106,11 +106,29 @@ export default function HomePage() {
           } catch (e) {}
         }
       } finally {
-        setLoading(false);
+        if (!silent) setLoading(false);
       }
     }
 
-    fetchData();
+    // Initial load
+    fetchData(false);
+
+    // Auto sync when customer focuses back on tab or un-minimizes browser
+    const onFocus = () => fetchData(true);
+    window.addEventListener('focus', onFocus);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') fetchData(true);
+    });
+
+    // Gentle 45s periodic background refresh
+    const timer = setInterval(() => {
+      if (document.visibilityState === 'visible') fetchData(true);
+    }, 45000);
+
+    return () => {
+      window.removeEventListener('focus', onFocus);
+      clearInterval(timer);
+    };
   }, []);
 
   // Unique brands

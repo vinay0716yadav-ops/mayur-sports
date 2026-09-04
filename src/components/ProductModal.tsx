@@ -48,6 +48,10 @@ export const ProductModal: React.FC<ProductModalProps> = ({ product, storeInfo, 
               src={product.imageUrl}
               alt={product.name}
               className="max-h-full max-w-full object-contain rounded-xl shadow-sm"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80';
+              }}
             />
           </div>
 

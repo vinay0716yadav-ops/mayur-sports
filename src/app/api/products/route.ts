@@ -4,14 +4,22 @@ import { Product } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
 
+const NO_CACHE_HEADERS = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+  'CDN-Cache-Control': 'no-store',
+  'Netlify-CDN-Cache-Control': 'no-store',
+  'Pragma': 'no-cache',
+  'Expires': '0',
+};
+
 export async function GET() {
   try {
     const products = await db.getProducts();
-    return NextResponse.json({ success: true, products });
+    return NextResponse.json({ success: true, products }, { headers: NO_CACHE_HEADERS });
   } catch (error) {
     return NextResponse.json(
       { success: false, message: 'Failed to fetch products' },
-      { status: 500 }
+      { status: 500, headers: NO_CACHE_HEADERS }
     );
   }
 }
