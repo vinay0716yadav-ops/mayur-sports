@@ -78,28 +78,6 @@
     "updatedAt": "2026-09-04T07:44:24.239Z"
   },
   {
-    "id": "prod-nivia-3",
-    "name": "Nivia Ashtang Rubber Basketball - Size 7",
-    "category": "Accessories",
-    "brand": "Nivia",
-    "price": 849,
-    "mrp": 1150,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 16,
-    "badge": "Top Rated",
-    "featured": false,
-    "description": "Deep pebble channel design offers exceptional finger grip and control. Suitable for both concrete outdoor courts and indoor wooden parquet surfaces.",
-    "features": [
-      "8-panel rubber composite shell",
-      "Deep grip channels for high palm friction",
-      "High bounce retention core",
-      "Official Men's Size 7"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-04T07:47:14.681Z"
-  },
-  {
     "id": "prod-volley-1",
     "name": "Nivia Spikester Volleyball (18-Panel Match Ball)",
     "category": "Volleyball",
