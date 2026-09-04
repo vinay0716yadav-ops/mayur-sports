@@ -162,7 +162,7 @@
     "mrp": 2199,
     "stockStatus": "IN_STOCK",
     "stockCount": 18,
-    "badge": "Turf Grip",
+    "badge": "",
     "featured": false,
     "description": "Synthetic leather turf football shoes with durable rubber lug sole for high agility and traction in turf box cricket and football (Catalogue Code: FB-1538).",
     "features": [
@@ -173,7 +173,7 @@
     ],
     "imageUrl": "https://raw.githubusercontent.com/vinay0716yadav-ops/mayur-sports/main/public/uploads/upload-1788516100832-8myxl5.jpg",
     "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-04T10:01:41.711Z"
+    "updatedAt": "2026-09-04T10:02:08.406Z"
   },
   {
     "id": "prod-fb-ashtang-gloves",
