@@ -1,5 +1,26 @@
 [
   {
+    "name": "Nivia Pro Carbon Shin Guards (Club Edition)",
+    "category": "Football",
+    "brand": "Nivia",
+    "price": 349,
+    "mrp": 499,
+    "stockStatus": "IN_STOCK",
+    "stockCount": 15,
+    "description": "Ergonomic hard shell shin protection with EVA foam backing for club football players.",
+    "features": [
+      "High impact polypropylene shell",
+      "Shock absorbent EVA backing",
+      "Secure dual velcro straps"
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80",
+    "badge": "New Arrival",
+    "featured": true,
+    "id": "prod-1788489003355-f6yr",
+    "createdAt": "2026-09-04T02:30:03.355Z",
+    "updatedAt": "2026-09-04T02:30:03.355Z"
+  },
+  {
     "id": "prod-nivia-1",
     "name": "Nivia Storm Football - Size 5 (FIFA Basic Certified)",
     "category": "Football",
