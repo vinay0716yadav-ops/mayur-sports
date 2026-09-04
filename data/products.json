@@ -286,28 +286,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-fb-raptor-gloves",
-    "name": "Nivia Raptor Torrido Negative Cut Goalkeeper Gloves",
-    "category": "Football",
-    "brand": "Nivia",
-    "price": 949,
-    "mrp": 1219,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 16,
-    "badge": "Negative Cut",
-    "featured": false,
-    "description": "Snug negative cut fit with front latex palm and superior backhand impact cushion for match saves (Catalogue Code: GG-742).",
-    "features": [
-      "Front latex palm with high-tack surface",
-      "Negative cut for second-skin ball feeling",
-      "3 inch elastic bandage strap",
-      "Professional match performance"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1593341646782-e0b495cff86d?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-fb-ashtang-shinguard",
     "name": "Nivia Ashtang Moulded Shin Guard with Lycra Sleeve",
     "category": "Football",
