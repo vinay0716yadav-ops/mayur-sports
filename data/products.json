@@ -729,27 +729,5 @@
     "imageUrl": "https://images.unsplash.com/photo-1586401100295-7a8096fd231a?auto=format&fit=crop&w=800&q=80",
     "createdAt": "2026-09-01T10:00:00.000Z",
     "updatedAt": "2026-09-04T06:39:09.872Z"
-  },
-  {
-    "id": "prod-fit-2",
-    "name": "Strauss Anti-Skid Yoga & Workout Mat (6mm with Strap)",
-    "category": "Fitness & Gym",
-    "brand": "Strauss",
-    "price": 799,
-    "mrp": 1299,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 20,
-    "badge": "Home Workout",
-    "featured": false,
-    "description": "High density eco-friendly EVA foam with double-sided ribbed texture. Provides joint cushioning for yoga, pilates, stretching, and floor calisthenics.",
-    "features": [
-      "6mm high-cushion thickness",
-      "Sweat-resistant and easily washable",
-      "Textured anti-slip pattern on both sides",
-      "Free carry strap included"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
   }
 ]
