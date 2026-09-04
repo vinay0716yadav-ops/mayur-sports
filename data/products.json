@@ -463,28 +463,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-badm-insole",
-    "name": "Nivia Foot Bounce High-Performance Court Shoe Insoles",
-    "category": "Badminton",
-    "brand": "Nivia",
-    "price": 219,
-    "mrp": 289,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 40,
-    "badge": "Active Bounce",
-    "featured": false,
-    "description": "Active cushioning dual-density replacement insole designed for badminton, tennis, and court shoes to absorb heavy jump-smash impact (Catalogue Code: SS-7704).",
-    "features": [
-      "High-energy return bounce cushioning",
-      "Ergonomic heel cup and arch support",
-      "Sweat-wicking top cloth",
-      "Trimmable fit for sizes 6 to 11"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-badm-socks",
     "name": "Nivia Court Bamboo Silicone Anti-Slip Socks",
     "category": "Badminton",
