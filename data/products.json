@@ -1,5 +1,22 @@
 [
   {
+    "name": "Anza football shoes",
+    "category": "Football",
+    "brand": "Anza",
+    "price": 1199,
+    "mrp": 1499,
+    "stockStatus": "IN_STOCK",
+    "stockCount": 10,
+    "description": "Anza football shoes  - Quality athletic gear available at Mayur Sports Chembur.",
+    "features": [],
+    "imageUrl": "https://images.unsplash.com/photo-1540747913346-19e32dc3e97e?auto=format&fit=crop&w=800&q=80",
+    "badge": "",
+    "featured": true,
+    "id": "prod-1788517610137-t0aq",
+    "createdAt": "2026-09-04T10:26:50.137Z",
+    "updatedAt": "2026-09-04T10:26:50.137Z"
+  },
+  {
     "name": "HYPRRFADT",
     "category": "Football",
     "brand": "Anza",
