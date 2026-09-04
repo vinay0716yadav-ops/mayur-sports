@@ -1,27 +1,5 @@
 [
   {
-    "id": "prod-fb-force2",
-    "name": "Nivia Force-II Match Football (Size 5 - Match Pro)",
-    "category": "Football",
-    "brand": "Nivia",
-    "price": 1499,
-    "mrp": 1949,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 20,
-    "badge": "Match Pro",
-    "featured": true,
-    "description": "Official 32-panel PU Micro Leather hand-stitched international match football. Superior flight stability, zero water absorption, and durable performance on wet grass, hard turf, and artificial grounds (Catalogue Code: FB-276).",
-    "features": [
-      "Official Size 5 - Match Standard",
-      "32-Panel PU Micro Leather stitched construction",
-      "Reinforced latex bladder for true flight trajectory",
-      "Suitable for soft wet ground, grass & artificial turf"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1579952363873-27f3bde9be2e?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-fb-dominator",
     "name": "Nivia Dominator 3.0 Thermobonded Football (Size 5)",
     "category": "Football",
