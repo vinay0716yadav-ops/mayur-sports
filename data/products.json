@@ -155,11 +155,11 @@
   },
   {
     "id": "prod-fb-enc12-turf",
-    "name": "Nivia Encounter 12 Turf Shoes",
+    "name": "NITRO",
     "category": "Shoes & Wear",
     "brand": "Nivia",
-    "price": 949,
-    "mrp": 1249,
+    "price": 1799,
+    "mrp": 2199,
     "stockStatus": "IN_STOCK",
     "stockCount": 18,
     "badge": "Turf Grip",
@@ -171,9 +171,9 @@
       "Padded collar and tongue for comfort",
       "Ideal for turf ground and hard cement"
     ],
-    "imageUrl": "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?auto=format&fit=crop&w=800&q=80",
+    "imageUrl": "https://raw.githubusercontent.com/vinay0716yadav-ops/mayur-sports/main/public/uploads/upload-1788516100832-8myxl5.jpg",
     "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
+    "updatedAt": "2026-09-04T10:01:41.711Z"
   },
   {
     "id": "prod-fb-ashtang-gloves",
