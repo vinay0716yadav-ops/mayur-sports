@@ -26,8 +26,8 @@
     "name": "Nivia Shining Star Football (Size 5 - Rubberized)",
     "category": "Football",
     "brand": "Nivia",
-    "price": 1199,
-    "mrp": 1549,
+    "price": 1149,
+    "mrp": 1449,
     "stockStatus": "IN_STOCK",
     "stockCount": 24,
     "badge": "Top Rated",
@@ -39,9 +39,9 @@
       "High rebound with shape memory layer",
       "International match specifications"
     ],
-    "imageUrl": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80",
+    "imageUrl": "https://raw.githubusercontent.com/vinay0716yadav-ops/mayur-sports/main/public/uploads/upload-1788510436595-3awma3.jpg",
     "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
+    "updatedAt": "2026-09-04T08:27:17.592Z"
   },
   {
     "id": "prod-fb-swerve",
