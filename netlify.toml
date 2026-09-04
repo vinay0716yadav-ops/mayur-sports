@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
+[build.environment]
+  NODE_VERSION = "20"
+  ADMIN_PASSWORD = "Manoj@1010"
+  GITHUB_REPO = "vinay0716yadav-ops/mayur-sports"
