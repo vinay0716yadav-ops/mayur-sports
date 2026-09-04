@@ -66,28 +66,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-fb-equator",
-    "name": "Nivia Equator Grained PU Training Football (Size 5)",
-    "category": "Football",
-    "brand": "Nivia",
-    "price": 999,
-    "mrp": 1349,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 22,
-    "badge": "Club Training",
-    "featured": false,
-    "description": "32-Panel grained PU synthetic leather stitched training ball. Excellent touch and abrasion resistance for academy practice on grass and turf (Catalogue Code: FB-245).",
-    "features": [
-      "Grained micro-texture for precision ball grip",
-      "Reinforced multi-layer fabric backing",
-      "Balanced weight distribution (410-450g)",
-      "Official Size 5 dimensions"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-fb-classic",
     "name": "Nivia Classic Vision-2030 Football (Size 5)",
     "category": "Football",
