@@ -110,28 +110,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-fb-futsal",
-    "name": "Nivia Force Futsal Match Ball - Size 4 (Low Bounce)",
-    "category": "Football",
-    "brand": "Nivia",
-    "price": 1299,
-    "mrp": 1749,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 14,
-    "badge": "Futsal Low Bounce",
-    "featured": false,
-    "description": "32-Panel hand-stitched PU futsal match ball. Low bounce filled bladder engineered specifically for indoor wooden courts, artificial turf cages, and concrete arenas (Catalogue Code: FB-275).",
-    "features": [
-      "Official Size 4 Futsal regulation",
-      "Hand-stitched PU composite cover",
-      "Controlled low-bounce core",
-      "Ideal for turf cages and indoor arenas"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-fb-retro",
     "name": "Nivia Encounter Retro 3D Football Studs (Men/Youth)",
     "category": "Shoes & Wear",
