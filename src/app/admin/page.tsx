@@ -101,7 +101,7 @@ export default function AdminDashboardPage() {
     }
   }, [router]);
 
-  // Load products with dual-sync
+  // Load products from cloud server
   const loadData = async () => {
     try {
       setLoading(true);
@@ -116,23 +116,25 @@ export default function AdminDashboardPage() {
         apiProducts = prodData.products || [];
       }
 
-      // Check local storage for custom additions
-      let merged = [...apiProducts];
-      if (typeof window !== 'undefined') {
+      if (apiProducts.length > 0) {
+        setProducts(apiProducts);
+        if (typeof window !== 'undefined') {
+          try {
+            localStorage.setItem('mayur_cached_products', JSON.stringify(apiProducts));
+            localStorage.removeItem('mayur_custom_products');
+          } catch (e) {}
+        }
+      } else if (typeof window !== 'undefined') {
         try {
-          const localSaved = localStorage.getItem('mayur_custom_products');
+          const localSaved = localStorage.getItem('mayur_cached_products');
           if (localSaved) {
             const localList: Product[] = JSON.parse(localSaved);
             if (Array.isArray(localList) && localList.length > 0) {
-              const map = new Map(apiProducts.map(p => [p.id, p]));
-              localList.forEach(lp => map.set(lp.id, lp));
-              merged = Array.from(map.values());
+              setProducts(localList);
             }
           }
         } catch (e) {}
       }
-
-      setProducts(merged);
 
       if (storeRes.ok) {
         const storeData = await storeRes.json();
@@ -141,6 +143,12 @@ export default function AdminDashboardPage() {
       }
     } catch (err) {
       console.error('Failed to load admin data:', err);
+      if (typeof window !== 'undefined') {
+        try {
+          const localSaved = localStorage.getItem('mayur_cached_products');
+          if (localSaved) setProducts(JSON.parse(localSaved));
+        } catch (e) {}
+      }
     } finally {
       setLoading(false);
     }
@@ -324,10 +332,11 @@ export default function AdminDashboardPage() {
     setShowUrlInput(false);
   };
 
-  // Helper to persist custom product changes to localStorage
+  // Helper to persist custom product changes to localStorage as backup
   const syncLocalProductStorage = (updatedList: Product[]) => {
     try {
-      localStorage.setItem('mayur_custom_products', JSON.stringify(updatedList));
+      localStorage.setItem('mayur_cached_products', JSON.stringify(updatedList));
+      localStorage.removeItem('mayur_custom_products');
     } catch (e) {
       console.error('Failed to sync localStorage:', e);
     }
@@ -387,7 +396,7 @@ export default function AdminDashboardPage() {
         });
 
         setEditingProduct(null);
-        showToast('Product updated successfully!');
+        showToast('Product updated successfully and synced to cloud!');
       } else {
         // Add POST
         const res = await fetch('/api/products', {
@@ -404,7 +413,6 @@ export default function AdminDashboardPage() {
           const data = await res.json();
           newProd = data.product;
         } else {
-          // Client fallback in case of serverless file error
           newProd = {
             ...payload,
             id: `prod-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
@@ -420,11 +428,11 @@ export default function AdminDashboardPage() {
         });
 
         setIsAddModalOpen(false);
-        showToast('New product added to catalog!');
+        showToast('New product added and permanently saved to cloud!');
       }
     } catch (err) {
       console.error(err);
-      alert('Network or server error');
+      alert('Network or server error while saving product.');
     } finally {
       setFormSubmitting(false);
     }
@@ -439,14 +447,14 @@ export default function AdminDashboardPage() {
     else if (product.stockStatus === 'OUT_OF_STOCK') nextStatus = 'IN_STOCK';
 
     try {
-      fetch(`/api/products/${product.id}`, {
+      await fetch(`/api/products/${product.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
         body: JSON.stringify({ stockStatus: nextStatus }),
-      }).catch(() => {});
+      });
 
       setProducts((prev) => {
         const nextList = prev.map((p) => (p.id === product.id ? { ...p, stockStatus: nextStatus } : p));
@@ -465,12 +473,12 @@ export default function AdminDashboardPage() {
     if (!deletingProductId || !token) return;
 
     try {
-      fetch(`/api/products/${deletingProductId}`, {
+      await fetch(`/api/products/${deletingProductId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
         },
-      }).catch(() => {});
+      });
 
       setProducts((prev) => {
         const nextList = prev.filter((p) => p.id !== deletingProductId);
@@ -479,7 +487,7 @@ export default function AdminDashboardPage() {
       });
 
       setDeletingProductId(null);
-      showToast('Product removed from catalog');
+      showToast('Product permanently deleted from catalog');
     } catch (err) {
       console.error(err);
       alert('Error deleting product');

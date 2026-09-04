@@ -58,7 +58,7 @@ export default function HomePage() {
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'newest'>('featured');
   const [selectedBrand, setSelectedBrand] = useState<string>('All');
 
-  // Load products with dual-sync (API + LocalStorage for guaranteed persistence of newly added items)
+  // Load products with single source of truth & offline cache fallback
   useEffect(() => {
     async function fetchData() {
       try {
@@ -74,26 +74,24 @@ export default function HomePage() {
           apiProducts = prodData.products || [];
         }
 
-        // Check if there are any locally added products in localStorage (for client persistence)
-        let mergedProducts = [...apiProducts];
-        if (typeof window !== 'undefined') {
+        if (apiProducts.length > 0) {
+          setProducts(apiProducts);
+          if (typeof window !== 'undefined') {
+            try {
+              localStorage.setItem('mayur_cached_products', JSON.stringify(apiProducts));
+            } catch (e) {}
+          }
+        } else if (typeof window !== 'undefined') {
           try {
-            const localSaved = localStorage.getItem('mayur_custom_products');
-            if (localSaved) {
-              const localList: Product[] = JSON.parse(localSaved);
-              if (Array.isArray(localList) && localList.length > 0) {
-                // Merge local products: replace existing by id or prepend new ones
-                const apiMap = new Map(apiProducts.map(p => [p.id, p]));
-                localList.forEach(lp => apiMap.set(lp.id, lp));
-                mergedProducts = Array.from(apiMap.values());
+            const cached = localStorage.getItem('mayur_cached_products');
+            if (cached) {
+              const parsed = JSON.parse(cached);
+              if (Array.isArray(parsed) && parsed.length > 0) {
+                setProducts(parsed);
               }
             }
-          } catch (e) {
-            console.error('Local storage merge error:', e);
-          }
+          } catch (e) {}
         }
-
-        setProducts(mergedProducts);
 
         if (storeRes.ok) {
           const storeData = await storeRes.json();
@@ -101,6 +99,12 @@ export default function HomePage() {
         }
       } catch (err) {
         console.error('Error loading storefront data:', err);
+        if (typeof window !== 'undefined') {
+          try {
+            const cached = localStorage.getItem('mayur_cached_products');
+            if (cached) setProducts(JSON.parse(cached));
+          } catch (e) {}
+        }
       } finally {
         setLoading(false);
       }
@@ -117,6 +121,42 @@ export default function HomePage() {
     });
     return ['All', ...Array.from(brands)];
   }, [products]);
+
+  // Comprehensive sports keywords and synonym expansions
+  const SYNONYM_MAP: Record<string, string[]> = {
+    'tt': ['table tennis', 'stag', 'ping pong'],
+    'pingpong': ['table tennis', 'tt'],
+    'swim': ['swimming', 'speedo', 'goggle', 'cap'],
+    'gym': ['fitness', 'workout', 'dumbbell', 'weight', 'glove', 'mat'],
+    'fitness': ['gym', 'workout', 'dumbbell', 'mat', 'glove'],
+    'workout': ['gym', 'fitness', 'dumbbell', 'mat'],
+    'bat': ['cricket', 'willow', 'ss', 'mrf', 'dsc'],
+    'bats': ['cricket', 'willow', 'ss', 'mrf', 'dsc'],
+    'ball': ['cricket', 'football', 'volleyball', 'tennis', 'leather'],
+    'balls': ['cricket', 'football', 'volleyball', 'tennis', 'leather'],
+    'stud': ['football', 'shoe', 'spikes', 'cleats'],
+    'studs': ['football', 'shoe', 'spikes', 'cleats'],
+    'shoe': ['shoes', 'studs', 'spikes', 'footwear'],
+    'shoes': ['shoe', 'studs', 'spikes', 'footwear'],
+    'volley': ['volleyball', 'spikester', 'net'],
+    'volleyballs': ['volleyball', 'spikester', 'net'],
+    'shuttle': ['shuttlecock', 'badminton', 'mavis', 'yonex'],
+    'shuttles': ['shuttlecock', 'badminton', 'mavis', 'yonex'],
+    'shuttlecock': ['shuttle', 'badminton', 'mavis', 'yonex'],
+    'racket': ['badminton', 'tennis', 'tt', 'yonex', 'stag'],
+    'rackets': ['badminton', 'tennis', 'tt', 'yonex', 'stag'],
+    'racquet': ['badminton', 'tennis', 'tt', 'yonex', 'stag'],
+    'racquets': ['badminton', 'tennis', 'tt', 'yonex', 'stag'],
+    'pad': ['pads', 'guard', 'knee', 'shin'],
+    'pads': ['pad', 'guard', 'knee', 'shin'],
+    'guard': ['guards', 'shin', 'knee', 'pad'],
+    'guards': ['guard', 'shin', 'knee', 'pad'],
+    'glove': ['gloves', 'batting', 'goalkeeper', 'gym'],
+    'gloves': ['glove', 'batting', 'goalkeeper', 'gym'],
+    'skate': ['skates', 'skating', 'roller', 'cosco'],
+    'skates': ['skate', 'skating', 'roller', 'cosco'],
+    'skating': ['skate', 'roller', 'cosco', 'helmet'],
+  };
 
   // Smart helper to normalize singular/plural terms (e.g. 'balls' -> 'ball', 'bats' -> 'bat', 'skates' -> 'skate')
   const getStem = (w: string) => {
@@ -139,11 +179,13 @@ export default function HomePage() {
       ...(p.features || [])
     ].join(' ').toLowerCase();
 
-    // Every search term must match in some way
+    // Every search term must match in some way (direct, stem, or synonym)
     return terms.every(term => {
       if (searchableText.includes(term)) return true;
       const stem = getStem(term);
       if (stem !== term && searchableText.includes(stem)) return true;
+      const synonyms = SYNONYM_MAP[term] || (stem !== term ? SYNONYM_MAP[stem] : undefined);
+      if (synonyms && synonyms.some(syn => searchableText.includes(syn))) return true;
       return false;
     });
   };

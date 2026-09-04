@@ -28,7 +28,7 @@ const GITHUB_REPO = process.env.GITHUB_REPO || 'vinay0716yadav-ops/mayur-sports'
 async function fetchFromGitHub(filePath: string): Promise<{ data: any; sha: string } | null> {
   if (!GITHUB_TOKEN) return null;
   try {
-    const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=main`, {
+    const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=main&_t=${Date.now()}`, {
       headers: {
         'Authorization': `token ${GITHUB_TOKEN}`,
         'User-Agent': 'Mayur-Sports-App',
@@ -49,11 +49,11 @@ async function fetchFromGitHub(filePath: string): Promise<{ data: any; sha: stri
   return null;
 }
 
-async function saveToGitHub(filePath: string, content: any, message: string): Promise<boolean> {
+export async function saveToGitHub(filePath: string, content: any, message: string, isRawBase64 = false): Promise<boolean> {
   if (!GITHUB_TOKEN) return false;
   try {
-    // 1. Get latest SHA
-    const checkRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=main`, {
+    // 1. Get latest SHA if file exists
+    const checkRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=main&_t=${Date.now()}`, {
       headers: {
         'Authorization': `token ${GITHUB_TOKEN}`,
         'User-Agent': 'Mayur-Sports-App',
@@ -68,8 +68,11 @@ async function saveToGitHub(filePath: string, content: any, message: string): Pr
       sha = info.sha;
     }
 
-    // 2. Put updated content
-    const base64Content = Buffer.from(JSON.stringify(content, null, 2), 'utf-8').toString('base64');
+    // 2. Prepare base64 payload
+    const base64Content = isRawBase64 
+      ? content 
+      : Buffer.from(JSON.stringify(content, null, 2), 'utf-8').toString('base64');
+
     const putRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`, {
       method: 'PUT',
       headers: {
@@ -88,9 +91,9 @@ async function saveToGitHub(filePath: string, content: any, message: string): Pr
 
     if (putRes.ok) {
       const putData = await putRes.json();
-      if (filePath.includes('products')) {
+      if (filePath.includes('products.json')) {
         global.__mayur_products_sha = putData.content?.sha;
-      } else {
+      } else if (filePath.includes('store.json')) {
         global.__mayur_store_sha = putData.content?.sha;
       }
       return true;
@@ -102,6 +105,50 @@ async function saveToGitHub(filePath: string, content: any, message: string): Pr
     console.error(`GitHub save error for ${filePath}:`, err);
   }
   return false;
+}
+
+// Convert base64 data URL to an independent permanent GitHub file in public/uploads/
+export async function processProductImage(imageUrl: string): Promise<string> {
+  if (!imageUrl || !imageUrl.startsWith('data:image/')) {
+    return imageUrl;
+  }
+
+  try {
+    const matches = imageUrl.match(/^data:image\/([a-zA-Z0-9+]+);base64,(.+)$/);
+    if (!matches || matches.length < 3) {
+      return imageUrl;
+    }
+
+    const rawExt = matches[1].toLowerCase();
+    const ext = rawExt === 'jpeg' ? 'jpg' : rawExt;
+    const rawBase64 = matches[2];
+    const fileName = `upload-${Date.now()}-${Math.random().toString(36).substring(2, 8)}.${ext}`;
+    const filePath = `public/uploads/${fileName}`;
+
+    // 1. Save locally if running in environment with write access
+    try {
+      const uploadDir = path.join(process.cwd(), 'public', 'uploads');
+      if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      fs.writeFileSync(path.join(uploadDir, fileName), Buffer.from(rawBase64, 'base64'));
+    } catch (e) {}
+
+    // 2. Commit permanently to GitHub repository
+    if (GITHUB_TOKEN) {
+      const saved = await saveToGitHub(filePath, rawBase64, `Upload product image ${fileName}`, true);
+      if (saved) {
+        // Return raw github cdn link for instant global access
+        return `https://raw.githubusercontent.com/${GITHUB_REPO}/main/public/uploads/${fileName}`;
+      }
+    }
+
+    // Fallback if local or if github commit not configured
+    return `/uploads/${fileName}`;
+  } catch (err) {
+    console.error('Error processing product image:', err);
+    return imageUrl;
+  }
 }
 
 function ensureLocalFiles() {
@@ -262,8 +309,10 @@ export const db = {
 
   createProduct: async (productData: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>): Promise<Product> => {
     const products = await loadProductsAsync();
+    const finalImageUrl = await processProductImage(productData.imageUrl);
     const newProduct: Product = {
       ...productData,
+      imageUrl: finalImageUrl,
       id: `prod-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
@@ -278,9 +327,15 @@ export const db = {
     const index = products.findIndex(p => p.id === id);
     if (index === -1) return null;
 
+    let finalImageUrl = updates.imageUrl;
+    if (finalImageUrl && finalImageUrl.startsWith('data:image/')) {
+      finalImageUrl = await processProductImage(finalImageUrl);
+    }
+
     const updatedProduct: Product = {
       ...products[index],
       ...updates,
+      ...(finalImageUrl !== undefined ? { imageUrl: finalImageUrl } : {}),
       updatedAt: new Date().toISOString(),
     };
 
