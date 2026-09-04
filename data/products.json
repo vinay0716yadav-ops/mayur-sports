@@ -551,28 +551,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-badm-appeal",
-    "name": "Nivia Appeal 4.0 Non-Marking Badminton Shoes",
-    "category": "Badminton",
-    "brand": "Nivia",
-    "price": 1399,
-    "mrp": 1799,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 16,
-    "badge": "Non-Marking Pro",
-    "featured": true,
-    "description": "Upper Breathable Mesh & Synthetic Leather with NR EVA foam insole. Duofoam midsole and 100% Non-Marking gum rubber outsole provides supreme court traction (Catalogue Code: BD-5958).",
-    "features": [
-      "Breathable air mesh upper with synthetic leather overlays",
-      "Shock-cushioning NR EVA insole",
-      "Duofoam midsole for fast rebound lunges",
-      "100% Non-Marking gum rubber sole for wooden/synthetic courts"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-badm-midcourt",
     "name": "Nivia Mid Court Badminton Shoes (Court Grip)",
     "category": "Badminton",
