@@ -27,6 +27,7 @@ const CATEGORIES: ('All' | Category)[] = [
   'Cricket',
   'Badminton',
   'Football',
+  'Volleyball',
   'Swimming',
   'Skating',
   'Fitness & Gym',
@@ -337,11 +338,12 @@ export default function HomePage() {
           </div>
 
           {/* Quick Category Icons Strip */}
-          <div className="mt-12 pt-8 border-t border-slate-800/80 grid grid-cols-3 sm:grid-cols-6 lg:grid-cols-9 gap-2">
+          <div className="mt-12 pt-8 border-t border-slate-800/80 grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-10 gap-2">
             {[
               { label: 'Cricket', icon: '🏏' },
               { label: 'Badminton', icon: '🏸' },
               { label: 'Football', icon: '⚽' },
+              { label: 'Volleyball', icon: '🏐' },
               { label: 'Swimming', icon: '🏊' },
               { label: 'Skating', icon: '🛼' },
               { label: 'Fitness & Gym', icon: '🏋️' },

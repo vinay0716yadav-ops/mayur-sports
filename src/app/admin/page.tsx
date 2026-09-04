@@ -33,6 +33,7 @@ const CATEGORIES: Category[] = [
   'Cricket',
   'Badminton',
   'Football',
+  'Volleyball',
   'Swimming',
   'Skating',
   'Fitness & Gym',

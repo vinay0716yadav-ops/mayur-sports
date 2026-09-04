@@ -2,9 +2,10 @@ export type Category =
   | 'Cricket'
   | 'Badminton'
   | 'Football'
-  | 'Fitness & Gym'
+  | 'Volleyball'
   | 'Swimming'
   | 'Skating'
+  | 'Fitness & Gym'
   | 'Tennis & TT'
   | 'Shoes & Wear'
   | 'Accessories';
