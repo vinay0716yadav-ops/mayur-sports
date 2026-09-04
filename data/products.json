@@ -507,28 +507,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-volley-g2020",
-    "name": "Nivia G-2020 Microfibre Composite Volleyball (Size 4)",
-    "category": "Volleyball",
-    "brand": "Nivia",
-    "price": 949,
-    "mrp": 1249,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 18,
-    "badge": "Microfibre Pro",
-    "featured": false,
-    "description": "18-Panel microfibre composite volleyball engineered for soft setter touch, high-velocity spikes, and indoor/outdoor match play (Catalogue Code: VB-496).",
-    "features": [
-      "18-Panel microfibre composite outer",
-      "Zero-sting cushioned surface",
-      "True trajectory and high air retention",
-      "Ideal for all court surfaces"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1592656094267-764a45160876?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-volley-spikester",
     "name": "Nivia Spikester PU Volleyball (18-Panel Match Ball)",
     "category": "Volleyball",
