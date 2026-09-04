@@ -551,28 +551,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-volley-net",
-    "name": "Nivia Tournament Volleyball Net with Steel Cable",
-    "category": "Volleyball",
-    "brand": "Nivia",
-    "price": 1199,
-    "mrp": 1699,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 10,
-    "badge": "Club Standard",
-    "featured": false,
-    "description": "Heavy-duty 4-side PVC taped regulation volleyball net with top aircraft steel wire cable for taut competition-grade setup (Catalogue Code: VB-5603).",
-    "features": [
-      "Standard 9.5m x 1m tournament dimensions",
-      "Reinforced 4-sided waterproof PVC headband",
-      "Heavy-gauge steel wire cable with side tension ropes",
-      "Weatherproof knotless nylon mesh"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1562771242-a02d9090c90c?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-crick-ss5000",
     "name": "SS Master 5000 English Willow Cricket Bat",
     "category": "Cricket",
