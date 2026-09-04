@@ -5,7 +5,7 @@
     "brand": "Cosco",
     "price": 750,
     "mrp": 1000,
-    "stockStatus": "OUT_OF_STOCK",
+    "stockStatus": "IN_STOCK",
     "stockCount": 10,
     "description": "Cosco aspire volleyball - Quality athletic gear available at Mayur Sports Chembur.",
     "features": [],
@@ -14,7 +14,7 @@
     "featured": true,
     "id": "prod-1788500641416-lsbf",
     "createdAt": "2026-09-04T05:44:01.416Z",
-    "updatedAt": "2026-09-04T05:44:37.921Z"
+    "updatedAt": "2026-09-04T05:44:54.147Z"
   },
   {
     "name": "nike",
