@@ -66,28 +66,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-fb-classic",
-    "name": "Nivia Classic Vision-2030 Football (Size 5)",
-    "category": "Football",
-    "brand": "Nivia",
-    "price": 899,
-    "mrp": 1249,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 25,
-    "badge": "All Weather",
-    "featured": false,
-    "description": "32-Panel rubberized stitched football built for long training sessions. Highly resilient on rough hard grounds and grassy pitches (Catalogue Code: FB-281).",
-    "features": [
-      "32-Panel rubberized stitched outer",
-      "Zero water penetration in heavy rain",
-      "High air retention latex bladder",
-      "Durable club training standard"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-fb-rabona",
     "name": "Nivia Rabona Pro Glossy TPU Football (Size 5)",
     "category": "Football",
