@@ -626,7 +626,7 @@
     "brand": "Yonex",
     "price": 2690,
     "mrp": 3490,
-    "stockStatus": "IN_STOCK",
+    "stockStatus": "LOW_STOCK",
     "stockCount": 18,
     "badge": "Smash Power",
     "featured": true,
@@ -640,7 +640,7 @@
     ],
     "imageUrl": "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80",
     "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
+    "updatedAt": "2026-09-04T06:59:46.496Z"
   },
   {
     "id": "prod-badm-2",
