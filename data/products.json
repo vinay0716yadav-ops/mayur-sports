@@ -330,28 +330,6 @@
     "updatedAt": "2026-09-01T10:00:00.000Z"
   },
   {
-    "id": "prod-fb-grip-stockings",
-    "name": "Nivia Ashtang 3.0 Anti-Slip Silicon Grip Stockings",
-    "category": "Football",
-    "brand": "Nivia",
-    "price": 349,
-    "mrp": 449,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 35,
-    "badge": "Silicon Grip",
-    "featured": false,
-    "description": "High-density breathable nylon knit with anti-slip silicone rubber grip dots on the sole. Prevents in-shoe slipping for maximum sprinting power (Catalogue Code: SS-7326).",
-    "features": [
-      "Anti-slip silicone rubber dots on bottom sole",
-      "Graduated calf compression for blood circulation",
-      "Built-in elastic arch support",
-      "Sweat-wicking performance nylon"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1556906781-9a412961c28c?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-fb-bamboo-stockings",
     "name": "Nivia Rabona 2.0 Bamboo Fibre Football Stockings",
     "category": "Football",
