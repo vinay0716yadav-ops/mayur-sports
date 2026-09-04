@@ -132,28 +132,6 @@
     "updatedAt": "2026-09-04T09:14:44.569Z"
   },
   {
-    "id": "prod-fb-inferno",
-    "name": "Nivia Inferno 3D Control Football Studs",
-    "category": "Shoes & Wear",
-    "brand": "Nivia",
-    "price": 1149,
-    "mrp": 1499,
-    "stockStatus": "IN_STOCK",
-    "stockCount": 15,
-    "badge": "3D Control",
-    "featured": false,
-    "description": "3D textured TPU synthetic upper gives instant grip on the ball when dribbling at high speed. Full TPU sole plate (Catalogue Code: FB-5994).",
-    "features": [
-      "TPU synthetic leather with 3D ball grip texture",
-      "Cushioned EVA insole",
-      "High shear TPU cleat configuration",
-      "Built for hard and grassy grounds"
-    ],
-    "imageUrl": "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=800&q=80",
-    "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-01T10:00:00.000Z"
-  },
-  {
     "id": "prod-fb-carbonite",
     "name": "Nivia Carbonite 8.0 Football Studs",
     "category": "Shoes & Wear",
