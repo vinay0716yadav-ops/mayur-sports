@@ -40,7 +40,7 @@
     "brand": "Nivia",
     "price": 899,
     "mrp": 1250,
-    "stockStatus": "LOW_STOCK",
+    "stockStatus": "OUT_OF_STOCK",
     "stockCount": 28,
     "badge": "Bestseller",
     "featured": true,
@@ -53,7 +53,7 @@
     ],
     "imageUrl": "https://images.unsplash.com/photo-1579952363873-27f3bde9be2e?auto=format&fit=crop&w=800&q=80",
     "createdAt": "2026-09-01T10:00:00.000Z",
-    "updatedAt": "2026-09-04T07:24:35.551Z"
+    "updatedAt": "2026-09-04T07:24:36.798Z"
   },
   {
     "id": "prod-nivia-2",
