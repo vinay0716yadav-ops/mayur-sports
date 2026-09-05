@@ -5,7 +5,7 @@
     "brand": "yonex",
     "price": 1150,
     "mrp": 1650,
-    "stockStatus": "LOW_STOCK",
+    "stockStatus": "IN_STOCK",
     "stockCount": 10,
     "description": "Yonex Mavis 350 Nylon Shuttlecock with Blue Cap (Yellow) - Quality athletic gear available at Mayur Sports Chembur.",
     "features": [
@@ -16,7 +16,7 @@
     "featured": true,
     "id": "prod-1788535326566-gmmx",
     "createdAt": "2026-09-04T15:22:06.566Z",
-    "updatedAt": "2026-09-05T12:12:18.796Z"
+    "updatedAt": "2026-09-05T12:12:21.569Z"
   },
   {
     "name": "Anza football shoes",
