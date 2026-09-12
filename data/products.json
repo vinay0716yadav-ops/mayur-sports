@@ -1,5 +1,22 @@
 [
   {
+    "name": "Speedo",
+    "category": "Swimming",
+    "brand": "Mayur Sports",
+    "price": 2499,
+    "mrp": 2788,
+    "stockStatus": "IN_STOCK",
+    "stockCount": 2,
+    "description": "Speedo - Quality athletic gear available at Mayur Sports Chembur.",
+    "features": [],
+    "imageUrl": "https://raw.githubusercontent.com/vinay0716yadav-ops/mayur-sports/main/public/uploads/upload-1789197019517-lhy0oo.jpg",
+    "badge": "",
+    "featured": false,
+    "id": "prod-1789197020373-jrac",
+    "createdAt": "2026-09-12T07:10:20.373Z",
+    "updatedAt": "2026-09-12T07:10:20.373Z"
+  },
+  {
     "name": "Yonex Mavis 350 Nylon Shuttlecock with Blue Cap (Yellow)",
     "category": "Badminton",
     "brand": "yonex",
