@@ -1,5 +1,22 @@
 [
   {
+    "name": "GEM  full kit",
+    "category": "Cricket",
+    "brand": "GEM",
+    "price": 5799,
+    "mrp": 8899,
+    "stockStatus": "IN_STOCK",
+    "stockCount": 18,
+    "description": "GEM  full kit - Quality athletic gear available at Mayur Sports Chembur.",
+    "features": [],
+    "imageUrl": "https://raw.githubusercontent.com/vinay0716yadav-ops/mayur-sports/main/public/uploads/upload-1789197904341-cl3hbh.jpg",
+    "badge": "",
+    "featured": false,
+    "id": "prod-1789197905137-iw7d",
+    "createdAt": "2026-09-12T07:25:05.137Z",
+    "updatedAt": "2026-09-12T07:25:05.137Z"
+  },
+  {
     "name": "SG  PREMIUM KASHMIR WILLOW",
     "category": "Cricket",
     "brand": "SG",
