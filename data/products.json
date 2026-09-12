@@ -1,5 +1,22 @@
 [
   {
+    "name": "DSC full kit",
+    "category": "Cricket",
+    "brand": "Dsc",
+    "price": 8199,
+    "mrp": 10799,
+    "stockStatus": "IN_STOCK",
+    "stockCount": 2,
+    "description": "DSC full kit - Quality athletic gear available at Mayur Sports Chembur.",
+    "features": [],
+    "imageUrl": "https://raw.githubusercontent.com/vinay0716yadav-ops/mayur-sports/main/public/uploads/upload-1789198023731-iawm51.jpg",
+    "badge": "",
+    "featured": false,
+    "id": "prod-1789198024593-lht1",
+    "createdAt": "2026-09-12T07:27:04.593Z",
+    "updatedAt": "2026-09-12T07:27:04.593Z"
+  },
+  {
     "name": "GEM  full kit",
     "category": "Cricket",
     "brand": "GEM",
