@@ -1,5 +1,22 @@
 [
   {
+    "name": "SG  PREMIUM KASHMIR WILLOW",
+    "category": "Cricket",
+    "brand": "SG",
+    "price": 6800,
+    "mrp": 8550,
+    "stockStatus": "IN_STOCK",
+    "stockCount": 20,
+    "description": "SG  PREMIUM KASHMIR WILLOW - Quality athletic gear available at Mayur Sports Chembur.",
+    "features": [],
+    "imageUrl": "https://raw.githubusercontent.com/vinay0716yadav-ops/mayur-sports/main/public/uploads/upload-1789197700986-8133xu.jpg",
+    "badge": "",
+    "featured": false,
+    "id": "prod-1789197701822-g2xd",
+    "createdAt": "2026-09-12T07:21:41.822Z",
+    "updatedAt": "2026-09-12T07:21:41.822Z"
+  },
+  {
     "name": "Speedo",
     "category": "Swimming",
     "brand": "Mayur Sports",
